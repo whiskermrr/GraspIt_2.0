@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_main"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.example.mrr.final_project_mobile_programming.Activity.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/mainContent"
+
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        >
+
+
+    </FrameLayout>
+
+<android.support.v4.view.ViewPager
+    android:id="@+id/activity_main_pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.v4.view.PagerTitleStrip
+
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#33B5E5"
+        android:layout_gravity="top"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:textSize="21sp"
+        >
+
+    </android.support.v4.view.PagerTitleStrip>
+
+
+
+</android.support.v4.view.ViewPager>
+
+</RelativeLayout>
+
+
+
+
+

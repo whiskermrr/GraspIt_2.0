@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#136F63</color>
+    <color name="colorPrimaryDark">#041B15</color>
+    <color name="colorAccent">#4CE0D2</color>
+    <color name="colorBackgroud">#22AAA1</color>
+    <color name="buttonWhite">#FFFFFF</color>
+    <color name="buttonGrey">#C7C7C7</color>
+    <color name="buttonGreen">#03BB3F</color>
+    <color name="colorPirateBlue">#003049</color>
+    <color name="colorSoftRed">#D62828</color>
+    <color name="colorSaltBlue">#0A369D</color>
+</resources>

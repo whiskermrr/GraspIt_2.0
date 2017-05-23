@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">GraspIt</string>
+    <string name="meetings_string">Meetings</string>
+    <string name="title_string">Title</string>
+    <string name="description_string">Description</string>
+    <string name="choose_date_string">Choose Date:</string>
+    <string name="choose_hour_string">Hour:</string>
+    <string name="choose_minute_string">Minute:</string>
+    <string name="notification_string">Notification</string>
+    <string name="set_time_string">Set Time:</string>
+    <string name="min_hint_string">Min</string>
+    <string name="hour_hint_string">Hour</string>
+    <string name="add_contact_button_string">Add Contact</string>
+    <string name="todo_string">TODO</string>
+</resources>
