@@ -17,11 +17,11 @@ public class EventHandler extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "events.db";
     public static final String TABLE_MEETINGS = "meetings";
-    public static final String TABLE_TODO = "todo";
     public static final String TABLE_CONTACTS = "contacts";
 
     //Event variables
     public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_TYPE_OF_EVENT = "type_of_event";
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_DESCRIPTION = "description";
     public static final String COLUMN_DATE = "date";

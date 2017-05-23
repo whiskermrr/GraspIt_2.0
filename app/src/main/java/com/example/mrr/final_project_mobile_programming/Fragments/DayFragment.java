@@ -130,5 +130,8 @@ public class DayFragment extends Fragment {
         dayToDoList.setAdapter(adapterTaskToDo);
         UtilityListViewHeight.setListViewHeightBasedOnItemsInList(meetingList);
         UtilityListViewHeight.setListViewHeightBasedOnItemsInList(dayToDoList);
+        System.out.println("MEETING LIST SIZE: " + meetingList.getCount());
+        System.out.println("TODO LIST SIZE: " + dayToDoList.getCount());
+        System.out.println("EVENT LIST SIZE: " + events.size());
     }
 }

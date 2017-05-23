@@ -5,12 +5,6 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.example.mrr.final_project_mobile_programming.Contacts.ContactsAdapter;
-
-/**
- * Created by Mrr on 2017-05-23.
- */
-
 public class UtilityListViewHeight {
 
     public static void setListViewHeightBasedOnItemsInList(ListView listView) {
@@ -28,9 +22,13 @@ public class UtilityListViewHeight {
         for (int i = 0; i < listAdapter.getCount(); i++) {
 
             View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            int measureSize = View.MeasureSpec.makeMeasureSpec(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            listItem.measure(measureSize , measureSize);
             totalHeight += listItem.getMeasuredHeight();
+            System.out.println(listItem.getMeasuredHeight());
         }
+
+        System.out.println("TOTAL HIGH: " + totalHeight);
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
