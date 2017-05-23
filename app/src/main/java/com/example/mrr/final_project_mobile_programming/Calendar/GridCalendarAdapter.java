@@ -33,14 +33,12 @@ public class GridCalendarAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Event> events;
 
-    GridCalendarFragment parent;
     Communicator communicator;
 
 
-    public GridCalendarAdapter(Context context, int month, int year, ArrayList<Event> events, GridCalendarFragment parent) {
+    public GridCalendarAdapter(Context context, int month, int year, ArrayList<Event> events) {
 
         this.context = context;
-        this.parent = parent;
         communicator = (Communicator) context;
 
         this.list = new ArrayList<>();

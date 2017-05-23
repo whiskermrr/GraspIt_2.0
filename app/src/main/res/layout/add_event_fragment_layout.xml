@@ -58,6 +58,7 @@
             android:scrollbars="vertical" />
 
         <ListView
+            android:nestedScrollingEnabled="true"
             android:id="@+id/addContactList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

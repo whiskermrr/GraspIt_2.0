@@ -29,15 +29,10 @@ public class SwitchTabAdapter extends FragmentPagerAdapter {
 
         else if(position == 1) {
 
-            fragment = new DayFragment();
-        }
-
-        else if(position == 2) {
-
             fragment = new GridCalendarFragment();
         }
 
-        else if(position == 3) {
+        else if(position == 2) {
 
             fragment = new AddEventFragment();
         }
@@ -48,7 +43,7 @@ public class SwitchTabAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
 
-        return 4;
+        return 3;
     }
 
     @Override
@@ -56,24 +51,18 @@ public class SwitchTabAdapter extends FragmentPagerAdapter {
 
         if(position == 0) {
 
-            return "Contacts";
+            return "Day";
         }
 
         else if(position == 1) {
 
-            return "Day";
+            return "Calendar";
         }
 
         else if(position == 2) {
 
-            return "Calendar";
-        }
-
-        else if(position == 3) {
-
             return "Add Event";
         }
-
 
         return null;
     }

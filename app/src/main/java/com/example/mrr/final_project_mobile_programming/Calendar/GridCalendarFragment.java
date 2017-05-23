@@ -57,7 +57,7 @@ public class GridCalendarFragment extends Fragment implements View.OnClickListen
         eventHandler = new EventHandler(getActivity(), null, null, 1);
 
         gridCalendar = (GridView) view.findViewById(R.id.gridCalendar);
-        adapter = new GridCalendarAdapter(getActivity(), currentMonthSelected, currentYearSelected, communicator.getEvents(), this);
+        adapter = new GridCalendarAdapter(getActivity(), currentMonthSelected, currentYearSelected, communicator.getEvents());
         gridCalendar.setAdapter(adapter);
 
         bLeftMonth = (Button) view.findViewById(R.id.bLeftMonth);
@@ -131,7 +131,7 @@ public class GridCalendarFragment extends Fragment implements View.OnClickListen
 
     private void changeMonth() {
 
-        adapter = new GridCalendarAdapter(getActivity(), currentMonthSelected, currentYearSelected, communicator.getEvents(), this);
+        adapter = new GridCalendarAdapter(getActivity(), currentMonthSelected, currentYearSelected, communicator.getEvents());
         gridCalendar.setAdapter(adapter);
         tMonth.setText(months[currentMonthSelected] + " " + currentYearSelected);
     }

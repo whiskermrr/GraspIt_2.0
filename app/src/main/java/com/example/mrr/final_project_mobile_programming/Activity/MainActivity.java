@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         viewPager = (ViewPager) findViewById(R.id.activity_main_pager);
         FragmentManager manager = getSupportFragmentManager();
         viewPager.setAdapter(new SwitchTabAdapter(manager));
+        viewPager.setCurrentItem(1);
     }
 
     public static boolean hasPermission(Context context, String[] permissions) {
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         ViewPager pager = (ViewPager) findViewById(R.id.activity_main_pager);
 
         SwitchTabAdapter adapter = (SwitchTabAdapter) pager.getAdapter();
-        DayFragment fragment = (DayFragment) adapter.instantiateItem(pager, 1);
+        DayFragment fragment = (DayFragment) adapter.instantiateItem(pager, 0);
 
 
         if(fragment != null) {
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
             fragment.updateAdapter(events);
         }
 
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
     }
 
     @Override
@@ -154,10 +155,10 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         ViewPager pager = (ViewPager) findViewById(R.id.activity_main_pager);
 
         SwitchTabAdapter adapter = (SwitchTabAdapter) pager.getAdapter();
-        GridCalendarFragment fragmentCalendar = (GridCalendarFragment) adapter.instantiateItem(pager, 2);
+        GridCalendarFragment fragmentCalendar = (GridCalendarFragment) adapter.instantiateItem(pager, 1);
         fragmentCalendar.addNewEvent(event);
 
-        DayFragment fragmentDay = (DayFragment) adapter.instantiateItem(pager, 1);
+        DayFragment fragmentDay = (DayFragment) adapter.instantiateItem(pager, 0);
         fragmentDay.addNewEvent(event);
     }
 
@@ -175,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         ViewPager pager = (ViewPager) findViewById(R.id.activity_main_pager);
 
         SwitchTabAdapter adapter = (SwitchTabAdapter) pager.getAdapter();
-        AddEventFragment fragment = (AddEventFragment) adapter.instantiateItem(pager, 3);
+        AddEventFragment fragment = (AddEventFragment) adapter.instantiateItem(pager, 2);
         fragment.addChosenContact(contact);
     }
 }

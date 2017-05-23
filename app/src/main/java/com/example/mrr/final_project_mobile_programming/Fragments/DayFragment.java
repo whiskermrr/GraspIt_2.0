@@ -13,6 +13,7 @@ import com.example.mrr.final_project_mobile_programming.Activity.Communicator;
 import com.example.mrr.final_project_mobile_programming.Calendar.Event;
 import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
 import com.example.mrr.final_project_mobile_programming.R;
+import com.example.mrr.final_project_mobile_programming.Utilities.UtilityListViewHeight;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -120,15 +121,14 @@ public class DayFragment extends Fragment {
             if(event.getClass() == Meeting.class) {
 
                 adapterMeetings.addEventToList(event);
+                adapterTaskToDo.addEventToList(event);
             }
 
-            else
-                adapterTaskToDo.addEventToList(event);
         }
 
         meetingList.setAdapter(adapterMeetings);
         dayToDoList.setAdapter(adapterTaskToDo);
-        adapterMeetings.notifyDataSetChanged();
-        adapterTaskToDo.notifyDataSetChanged();
+        UtilityListViewHeight.setListViewHeightBasedOnItemsInList(meetingList);
+        UtilityListViewHeight.setListViewHeightBasedOnItemsInList(dayToDoList);
     }
 }

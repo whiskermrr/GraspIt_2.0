@@ -23,6 +23,7 @@ import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
 import com.example.mrr.final_project_mobile_programming.Contacts.ContactModel;
 import com.example.mrr.final_project_mobile_programming.Contacts.ContactsAdapter;
 import com.example.mrr.final_project_mobile_programming.R;
+import com.example.mrr.final_project_mobile_programming.Utilities.UtilityListViewHeight;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -80,6 +81,7 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 adapter.removeContactFromList(position);
+                UtilityListViewHeight.setListViewHeightBasedOnItemsInList(contactsList);
             }
         });
 
@@ -144,6 +146,7 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
 
         else
             adapter.addContactToList(contact);
+        UtilityListViewHeight.setListViewHeightBasedOnItemsInList(contactsList);
     }
 
     private void addEventFromInput() {
