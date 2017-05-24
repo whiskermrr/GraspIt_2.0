@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.example.mrr.final_project_mobile_programming.Activity.Communicator;
 import com.example.mrr.final_project_mobile_programming.Calendar.Event;
 import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
+import com.example.mrr.final_project_mobile_programming.Calendar.TaskToDo;
 import com.example.mrr.final_project_mobile_programming.R;
 import com.example.mrr.final_project_mobile_programming.Utilities.UtilityListViewHeight;
 
@@ -107,8 +108,17 @@ public class DayFragment extends Fragment {
 
     public void addNewEvent(Event event) {
 
-        adapterMeetings.addEventToList(event);
-        adapterMeetings.notifyDataSetChanged();
+        if(event.getClass() == Meeting.class) {
+
+            adapterMeetings.addEventToList(event);
+            adapterMeetings.notifyDataSetChanged();
+        }
+
+        else if(event.getClass() == TaskToDo.class) {
+
+            adapterTaskToDo.addEventToList(event);
+            adapterTaskToDo.notifyDataSetChanged();
+        }
     }
 
     public void updateAdapter(ArrayList<Event> events) {
@@ -121,6 +131,11 @@ public class DayFragment extends Fragment {
             if(event.getClass() == Meeting.class) {
 
                 adapterMeetings.addEventToList(event);
+
+            }
+
+            else if(event.getClass() == TaskToDo.class) {
+
                 adapterTaskToDo.addEventToList(event);
             }
 
@@ -130,8 +145,5 @@ public class DayFragment extends Fragment {
         dayToDoList.setAdapter(adapterTaskToDo);
         UtilityListViewHeight.setListViewHeightBasedOnItemsInList(meetingList);
         UtilityListViewHeight.setListViewHeightBasedOnItemsInList(dayToDoList);
-        System.out.println("MEETING LIST SIZE: " + meetingList.getCount());
-        System.out.println("TODO LIST SIZE: " + dayToDoList.getCount());
-        System.out.println("EVENT LIST SIZE: " + events.size());
     }
 }

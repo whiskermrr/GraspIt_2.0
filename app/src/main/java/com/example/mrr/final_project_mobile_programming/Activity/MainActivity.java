@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         }
 
         eventHandler = new EventHandler(this, null, null, 1);
+        //eventHandler.onUpgrade(eventHandler.getWritableDatabase(), 1, 1);
 
         viewPager = (ViewPager) findViewById(R.id.activity_main_pager);
         FragmentManager manager = getSupportFragmentManager();
@@ -86,11 +87,11 @@ public class MainActivity extends AppCompatActivity implements Communicator {
     @Override
     public ArrayList<Event> getEvents() {
 
-        Cursor cursorMeetings = eventHandler.getCursorOfAllMeetings();
-        cursorMeetings.moveToFirst();
+        Cursor cursorEvents = eventHandler.getCursorOfAllMeetings();
+        cursorEvents.moveToFirst();
         Cursor cursorContacts = eventHandler.getCursorOfAllContacts();
 
-        ArrayList<Event> events = CursorsFetcher.getMeetingsFromDatabaseAsList(cursorMeetings, cursorContacts);
+        ArrayList<Event> events = CursorsFetcher.getMeetingsFromDatabaseAsList(cursorEvents, cursorContacts);
 
         eventHandler.closeDatabase();
 
@@ -103,16 +104,16 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
         ArrayList<Event> events = new ArrayList<>();
 
-        Cursor cursorMeetings = eventHandler.getCursorOfMeetingsBySelectedDate(year, month, day);
+        Cursor cursorEvents = eventHandler.getCursorOfMeetingsBySelectedDate(year, month, day);
 
-        if(cursorMeetings != null && cursorMeetings.getCount() > 0) {
+        if(cursorEvents != null && cursorEvents.getCount() > 0) {
 
-            cursorMeetings.moveToFirst();
+            cursorEvents.moveToFirst();
             Cursor cursorContact = eventHandler.getCursorOfAllContacts();
 
-            events = CursorsFetcher.getMeetingsFromDatabaseAsList(cursorMeetings, cursorContact);
+            events = CursorsFetcher.getMeetingsFromDatabaseAsList(cursorEvents, cursorContact);
             cursorContact.close();
-            cursorMeetings.close();
+            cursorEvents.close();
         }
 
         eventHandler.closeDatabase();

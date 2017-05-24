@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mrr.final_project_mobile_programming.Activity.LoginActivity">
+
+    <TextView
+        android:id="@+id/welcomeMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome!"
+        android:textColor="@color/colorBackgroud"
+        android:textSize="36sp"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        />
+
+    <TextView
+        android:id="@+id/descriptionMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Out application require Google Authentication"
+        android:textColor="@color/colorSaltBlue"
+        android:layout_below="@+id/welcomeMessage"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+
+        />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/descriptionMessage"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:layout_marginStart="130dp"
+        />
+
+</RelativeLayout>

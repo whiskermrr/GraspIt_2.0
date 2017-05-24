@@ -15,11 +15,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.mrr.final_project_mobile_programming.Activity.Communicator;
 import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
+import com.example.mrr.final_project_mobile_programming.Calendar.TaskToDo;
 import com.example.mrr.final_project_mobile_programming.Contacts.ContactModel;
 import com.example.mrr.final_project_mobile_programming.Contacts.ContactsAdapter;
 import com.example.mrr.final_project_mobile_programming.R;
@@ -33,16 +35,18 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class AddEventFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
+public class AddEventFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     Communicator communicator;
     ContactsAdapter adapter;
     Calendar calendar = Calendar.getInstance();
 
     LinearLayout notificationLayout;
+    LinearLayout iconLayout;
     ListView contactsList;
     Switch notificationSwitch;
     ImageButton bAddContact;
+    Spinner spinnerEvent;
 
     EditText etTitle;
     EditText etDescription;
@@ -52,7 +56,14 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
     EditText notificationHour;
     EditText notificationMinute;
 
+    CustomImageView iBrain;
+    CustomImageView iBook;
+    CustomImageView iWorkout;
+
     Button bAddEvent;
+
+    int idOfChosenImage;
+    boolean clickedIcon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,9 +71,13 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
         View view = inflater.inflate(R.layout.add_event_fragment_layout, container, false);
 
         adapter = null;
+        clickedIcon = false;
+        idOfChosenImage = -1;
 
         notificationLayout = (LinearLayout) view.findViewById(R.id.notificationLayout);
         notificationLayout.setVisibility(LinearLayout.GONE);
+        iconLayout = (LinearLayout) view.findViewById(R.id.iconLayout);
+        iconLayout.setVisibility(LinearLayout.GONE);
         contactsList = (ListView) view.findViewById(R.id.addContactList);
         notificationSwitch = (Switch) view.findViewById(R.id.notificationSwitch);
         bAddContact = (ImageButton) view.findViewById(R.id.bAddContact);
@@ -74,6 +89,19 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
         notificationHour = (EditText) view.findViewById(R.id.etNotificationHours);
         notificationMinute = (EditText) view.findViewById(R.id.etNotificationMinutes);
         bAddEvent = (Button) view.findViewById(R.id.bAddEvent);
+        iBook = (CustomImageView) view.findViewById(R.id.iBook);
+        iBrain = (CustomImageView) view.findViewById(R.id.iBrain);
+        iWorkout = (CustomImageView) view.findViewById(R.id.iWorkout);
+        spinnerEvent = (Spinner) view.findViewById(R.id.spinnerEvent);
+        spinnerEvent.setOnItemSelectedListener(this);
+
+        iBook.setClickable(true);
+        iBrain.setClickable(true);
+        iWorkout.setClickable(true);
+
+        iBook.setOnClickListener(this);
+        iBrain.setOnClickListener(this);
+        iWorkout.setOnClickListener(this);
 
         notificationSwitch.setOnCheckedChangeListener(this);
         contactsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -193,16 +221,27 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
                 }
             }
 
-            Meeting meeting = new Meeting(title, description, date, notifiHour, notifiMinute);
+            int typeId = spinnerEvent.getSelectedItemPosition();
 
-            if(adapter != null) {
+            if(typeId == 0) {
 
-                ArrayList<ContactModel> contacts = adapter.getAllContacts();
-                meeting.setContacts(contacts);
-                adapter.clearContactList();
+                Meeting meeting = new Meeting(title, description, date, notifiHour, notifiMinute, typeId);
+
+                if(adapter != null) {
+
+                    ArrayList<ContactModel> contacts = adapter.getAllContacts();
+                    meeting.setContacts(contacts);
+                    adapter.clearContactList();
+                }
+
+                communicator.addEventToDatabase(meeting);
             }
 
-            communicator.addEventToDatabase(meeting);
+            else if(typeId == 1 && clickedIcon) {
+
+                TaskToDo task = new TaskToDo(title, description, date, notifiHour, notifiMinute, typeId, idOfChosenImage);
+                communicator.addEventToDatabase(task);
+            }
 
             etTitle.setText("");
             etDescription.setText("");
@@ -257,5 +296,55 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
         }
 
         return date;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch(v.getId()) {
+
+            case R.id.iBook:
+                idOfChosenImage = R.drawable.book_icon;
+                iBook.changeImageSize(70);
+                iBrain.changeImageSize(50);
+                iWorkout.changeImageSize(50);
+                clickedIcon = true;
+                break;
+
+            case R.id.iBrain:
+                idOfChosenImage = R.drawable.brain_icon;
+                iBook.changeImageSize(50);
+                iBrain.changeImageSize(70);
+                iWorkout.changeImageSize(50);
+                clickedIcon = true;
+                break;
+
+            case R.id.iWorkout:
+                idOfChosenImage = R.drawable.workout_icon;
+                iBook.changeImageSize(50);
+                iBrain.changeImageSize(50);
+                iWorkout.changeImageSize(70);
+                clickedIcon = true;
+                break;
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        if(position == 0) {
+
+            iconLayout.setVisibility(LinearLayout.GONE);
+        }
+
+        else if(position == 1) {
+
+            iconLayout.setVisibility(LinearLayout.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

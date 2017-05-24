@@ -9,6 +9,50 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <Spinner
+            android:id="@+id/spinnerEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:entries="@array/events_type"
+            android:layout_marginTop="10dp"
+            />
+
+        <LinearLayout
+            android:id="@+id/iconLayout"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            >
+
+            <com.example.mrr.final_project_mobile_programming.Fragments.CustomImageView
+                android:id="@+id/iBook"
+                android:src="@drawable/book_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                />
+
+            <com.example.mrr.final_project_mobile_programming.Fragments.CustomImageView
+                android:id="@+id/iBrain"
+                android:src="@drawable/brain_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                />
+
+            <com.example.mrr.final_project_mobile_programming.Fragments.CustomImageView
+                android:id="@+id/iWorkout"
+                android:src="@drawable/workout_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                />
+
+        </LinearLayout>
+
+
         <TextView
             android:id="@+id/tTitle"
             android:layout_width="match_parent"

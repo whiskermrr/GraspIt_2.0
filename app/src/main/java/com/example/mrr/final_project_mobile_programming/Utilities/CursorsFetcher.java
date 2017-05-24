@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import com.example.mrr.final_project_mobile_programming.Calendar.Event;
 import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
+import com.example.mrr.final_project_mobile_programming.Calendar.TaskToDo;
 import com.example.mrr.final_project_mobile_programming.Contacts.ContactModel;
 
 import java.util.ArrayList;
@@ -12,54 +13,66 @@ import java.util.Date;
 
 public class CursorsFetcher {
 
-    public static ArrayList<Event> getMeetingsFromDatabaseAsList(Cursor cursorMeetings, Cursor cursorContacts) {
+    public static ArrayList<Event> getMeetingsFromDatabaseAsList(Cursor cursorEvents, Cursor cursorContacts) {
 
-        ArrayList<Event> meetings = new ArrayList<>();
+        ArrayList<Event> events = new ArrayList<>();
 
-        if(cursorMeetings != null && cursorMeetings.getCount() > 0) {
+        if(cursorEvents != null && cursorEvents.getCount() > 0) {
 
-            cursorMeetings.moveToFirst();
+            cursorEvents.moveToFirst();
 
             do {
 
-                String title = cursorMeetings.getString(cursorMeetings.getColumnIndex(EventHandler.COLUMN_TITLE));
-                String description = cursorMeetings.getString(cursorMeetings.getColumnIndex(EventHandler.COLUMN_DESCRIPTION));
-                long date = (long) cursorMeetings.getDouble(cursorMeetings.getColumnIndex(EventHandler.COLUMN_DATE));
-                int notificationHour = cursorMeetings.getInt(cursorMeetings.getColumnIndex(EventHandler.COLUMN_NOTIFICATION_HOUR));
-                int notificationMinute = cursorMeetings.getInt(cursorMeetings.getColumnIndex(EventHandler.COLUMN_NOTIFICATION_MINUTE));
-                int meetingId = cursorMeetings.getInt(cursorMeetings.getColumnIndex(EventHandler.COLUMN_ID));
+                String title = cursorEvents.getString(cursorEvents.getColumnIndex(EventHandler.COLUMN_TITLE));
+                String description = cursorEvents.getString(cursorEvents.getColumnIndex(EventHandler.COLUMN_DESCRIPTION));
+                long date = (long) cursorEvents.getDouble(cursorEvents.getColumnIndex(EventHandler.COLUMN_DATE));
+                int notificationHour = cursorEvents.getInt(cursorEvents.getColumnIndex(EventHandler.COLUMN_NOTIFICATION_HOUR));
+                int notificationMinute = cursorEvents.getInt(cursorEvents.getColumnIndex(EventHandler.COLUMN_NOTIFICATION_MINUTE));
+                int meetingId = cursorEvents.getInt(cursorEvents.getColumnIndex(EventHandler.COLUMN_ID));
+                int typeId = cursorEvents.getInt(cursorEvents.getColumnIndex(EventHandler.COLUMN_TYPE_OF_EVENT));
+                int imageId = cursorEvents.getInt(cursorEvents.getColumnIndex(EventHandler.COLUMN_TASK_ICON));
 
-                Meeting meeting = new Meeting(title, description, new Date(date), notificationHour, notificationMinute);
 
-                if(cursorContacts != null) {
+                if(typeId == 0) {
 
-                    ArrayList<ContactModel> contacts = new ArrayList<>();
+                    Meeting event = new Meeting(title, description, new Date(date), notificationHour, notificationMinute, typeId);
 
-                    while (cursorContacts.moveToNext()) {
+                    if(cursorContacts != null) {
 
-                        int contactEventId = cursorContacts.getInt(cursorContacts.getColumnIndex(EventHandler.COLUMN_CONTACT_EVENT_ID));
+                        ArrayList<ContactModel> contacts = new ArrayList<>();
 
-                        if(meetingId == contactEventId) {
+                        while (cursorContacts.moveToNext()) {
 
-                            String contactName = cursorContacts.getString(cursorContacts.getColumnIndex(EventHandler.COLUMN_CONTACT_NAME));
-                            String contactId = cursorContacts.getString(cursorContacts.getColumnIndex(EventHandler.COLUMN_CONTACT_ID));
-                            String contactPhoto = cursorContacts.getString(cursorContacts.getColumnIndex(EventHandler.COLUMN_CONTACT_PHOTO));
-                            String contactNumber = cursorContacts.getString(cursorContacts.getColumnIndex(EventHandler.COLUMN_CONTACT_NUMBER));
-                            String contactEmail = cursorContacts.getString(cursorContacts.getColumnIndex(EventHandler.COLUMN_CONTACT_EMAIL));
+                            int contactEventId = cursorContacts.getInt(cursorContacts.getColumnIndex(EventHandler.COLUMN_CONTACT_EVENT_ID));
 
-                            ContactModel contact = new ContactModel(contactName, contactId, contactPhoto, contactNumber, contactEmail);
-                            contacts.add(contact);
+                            if(meetingId == contactEventId) {
+
+                                String contactName = cursorContacts.getString(cursorContacts.getColumnIndex(EventHandler.COLUMN_CONTACT_NAME));
+                                String contactId = cursorContacts.getString(cursorContacts.getColumnIndex(EventHandler.COLUMN_CONTACT_ID));
+                                String contactPhoto = cursorContacts.getString(cursorContacts.getColumnIndex(EventHandler.COLUMN_CONTACT_PHOTO));
+                                String contactNumber = cursorContacts.getString(cursorContacts.getColumnIndex(EventHandler.COLUMN_CONTACT_NUMBER));
+                                String contactEmail = cursorContacts.getString(cursorContacts.getColumnIndex(EventHandler.COLUMN_CONTACT_EMAIL));
+
+                                ContactModel contact = new ContactModel(contactName, contactId, contactPhoto, contactNumber, contactEmail);
+                                contacts.add(contact);
+                            }
                         }
+                        event.setContacts(contacts);
+                        cursorContacts.moveToFirst();
                     }
-                    meeting.setContacts(contacts);
-                    cursorContacts.moveToFirst();
+
+                    events.add(event);
                 }
 
-                meetings.add(meeting);
+                else if(typeId == 1) {
+
+                    TaskToDo event = new TaskToDo(title, description, new Date(date), notificationHour, notificationMinute, typeId, imageId);
+                    events.add(event);
+                }
             }
-            while(cursorMeetings.moveToNext());
+            while(cursorEvents.moveToNext());
         }
 
-        return meetings;
+        return events;
     }
 }

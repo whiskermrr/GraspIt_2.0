@@ -10,14 +10,16 @@ public abstract class Event {
     private Date date;
     private int notificationHour;
     private int notificationMinute;
+    private int typeId;
 
-    public Event(String title, String description, Date date, int notificationHour, int notificationMinute) {
+    public Event(String title, String description, Date date, int notificationHour, int notificationMinute, int typeId) {
 
         this.title = title;
         this.description = description;
         this.date = date;
         this.notificationHour = notificationHour;
         this.notificationMinute = notificationMinute;
+        this.typeId = typeId;
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -126,6 +128,16 @@ public abstract class Event {
     public void setNotificationMinute(int notificationMinute) {
 
         this.notificationMinute = notificationMinute;
+    }
+
+    public int getTypeId() {
+
+        return typeId;
+    }
+
+    public void setTypeId(int typeId) {
+
+        this.typeId = typeId;
     }
 }
 

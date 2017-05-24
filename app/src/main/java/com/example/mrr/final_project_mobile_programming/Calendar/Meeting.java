@@ -9,8 +9,8 @@ public class Meeting extends Event {
 
     ArrayList<ContactModel> contacts;
 
-    public Meeting(String title, String description, Date date, int notificationHour, int notificationMinute) {
-        super(title, description, date, notificationHour, notificationMinute);
+    public Meeting(String title, String description, Date date, int notificationHour, int notificationMinute, int typeId) {
+        super(title, description, date, notificationHour, notificationMinute, typeId);
 
         contacts = new ArrayList<>();
     }

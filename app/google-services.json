@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "249210386450",
+    "firebase_url": "https://graspit-59615.firebaseio.com",
+    "project_id": "graspit-59615",
+    "storage_bucket": "graspit-59615.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249210386450:android:e825b46f39f33302",
+        "android_client_info": {
+          "package_name": "com.example.mrr.final_project_mobile_programming"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "249210386450-dh45oabk68een0d9g1pjcv5u2es8co4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmd8AcJb20J8HmpsBJ11suko1HEQf58Tc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

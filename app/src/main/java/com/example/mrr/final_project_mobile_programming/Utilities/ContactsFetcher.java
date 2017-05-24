@@ -65,7 +65,7 @@ public class ContactsFetcher {
                 Cursor emailCursor = contentResolver
                         .query(EMAIL_CONTACT_URI, null, EMAIL_CONTACT_ID + " = ?", new String[] {contactModel.getContactId()}, null);
 
-                if(emailCursor != null) {
+                if(emailCursor.getCount() > 0) {
 
                     emailCursor.moveToFirst();
                     contactModel.setEmail(emailCursor.getString(emailCursor.getColumnIndex(DATA)));

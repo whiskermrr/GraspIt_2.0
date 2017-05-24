@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.mrr.final_project_mobile_programming.Calendar.Event;
 import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
+import com.example.mrr.final_project_mobile_programming.Calendar.TaskToDo;
 import com.example.mrr.final_project_mobile_programming.Contacts.ContactModel;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class EventHandler extends SQLiteOpenHelper {
     public static final String COLUMN_MINUTE = "minute";
     public static final String COLUMN_NOTIFICATION_HOUR = "notification_hour";
     public static final String COLUMN_NOTIFICATION_MINUTE = "notification_minute";
+    public static final String COLUMN_TASK_ICON = "task_icon";
 
     //Meeting variables
     public static final String COLUMN_CONTACT_EVENT_ID = "contact_event_id";
@@ -54,16 +56,18 @@ public class EventHandler extends SQLiteOpenHelper {
 
         String queryEvent = "CREATE TABLE " + TABLE_MEETINGS + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_TYPE_OF_EVENT + " INTEGER NOT NULL," +
                 COLUMN_TITLE + " TEXT NOT NULL," +
                 COLUMN_DESCRIPTION + " TEXT NOT NULL," +
                 COLUMN_DATE + " REAL NOT NULL," +
                 COLUMN_YEAR + " INTEGER NOT NULL," +
                 COLUMN_MONTH + " INTEGER NOT NULL," +
                 COLUMN_DAY + " INTEGER NOT NULL," +
-                COLUMN_HOUR + " INTEGER NOT NULL," +    // can be null for thing to do we will take care about everything in addEvent fragment
-                COLUMN_MINUTE + " INTEGER NOT NULL," +  // can be null for thing to do
+                COLUMN_HOUR + " INTEGER NOT NULL," +
+                COLUMN_MINUTE + " INTEGER NOT NULL," +
                 COLUMN_NOTIFICATION_HOUR + " INTEGER NOT NULL," +
-                COLUMN_NOTIFICATION_MINUTE + " INTEGER NOT NULL" +
+                COLUMN_NOTIFICATION_MINUTE + " INTEGER NOT NULL," +
+                COLUMN_TASK_ICON + " INTEGER NOT NULL" +
                 ");";
 
         String queryContact = "CREATE TABLE " + TABLE_CONTACTS + "(" +
@@ -138,12 +142,23 @@ public class EventHandler extends SQLiteOpenHelper {
         values.put(COLUMN_MINUTE, event.getMinute());
         values.put(COLUMN_NOTIFICATION_HOUR, event.getNotificationHour());
         values.put(COLUMN_NOTIFICATION_MINUTE, event.getNotificationMinute());
+        values.put(COLUMN_TYPE_OF_EVENT, event.getTypeId());
+
+        int imageValue = -1;
+
+        if(event.getClass() == TaskToDo.class) {
+
+            TaskToDo task = (TaskToDo) event;
+            imageValue = task.getImageId();
+        }
 
         if(event.getClass() == Meeting.class) {
 
             Meeting meeting = (Meeting) event;
             insertContact(meeting);
         }
+
+        values.put(COLUMN_TASK_ICON, imageValue);
 
         return values;
     }
@@ -172,7 +187,8 @@ public class EventHandler extends SQLiteOpenHelper {
     private int getLastAddedMeetingId() {
 
         db = getReadableDatabase();
-        Cursor cursor = db.query(TABLE_MEETINGS, new String[] {COLUMN_ID}, null, null, null, null, null);
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_ID + " FROM " + TABLE_MEETINGS + " WHERE " + COLUMN_TYPE_OF_EVENT + " = ?",
+                new String[] {Integer.toString(0)});
         cursor.moveToLast();
 
         int id = 0;

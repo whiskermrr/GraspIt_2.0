@@ -241,17 +241,20 @@ public class GridCalendarAdapter extends BaseAdapter {
 
                         for(int i = 0; i < positions.length; i++) {
 
-                            if(events.get(i).getClass() == Meeting.class) {
+
+                            if(events.get(positions[i]).getTypeId() == 0) {
 
                                 Meeting event = (Meeting) events.get(positions[i]);
+
                                 System.out.println("TITLE: " + event.getTitle());
                                 System.out.println("DESCRIPTION: " + event.getDescription());
                                 System.out.println("YEAR: " + event.getYear());
                                 System.out.println("MONTH: " + event.getMonth());
                                 System.out.println("DAY: " + event.getDay());
+                                System.out.println("TYPE: " +event.getTypeId());
                                 System.out.println("----------------");
 
-                                for(int j = 0; j < event.getContacts().size(); j++) {
+                                for (int j = 0; j < event.getContacts().size(); j++) {
 
                                     System.out.println(event.getContacts().get(j).getName());
                                     System.out.println(event.getContacts().get(j).getPhoneNumber());
@@ -259,6 +262,20 @@ public class GridCalendarAdapter extends BaseAdapter {
                                     System.out.println(Uri.parse(event.getContacts().get(j).getPhoto()));
                                     System.out.println("----------------");
                                 }
+                            }
+
+                            else if(events.get(positions[i]).getTypeId() == 1) {
+
+                                TaskToDo event = (TaskToDo) events.get(positions[i]);
+
+                                System.out.println("TITLE: " + event.getTitle());
+                                System.out.println("DESCRIPTION: " + event.getDescription());
+                                System.out.println("YEAR: " + event.getYear());
+                                System.out.println("MONTH: " + event.getMonth());
+                                System.out.println("DAY: " + event.getDay());
+                                System.out.println("TYPE: " + event.getTypeId());
+                                System.out.println("IMAGE: " + event.getImageId());
+                                System.out.println("----------------");
                             }
                         }
                     }

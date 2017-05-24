@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.mrr.final_project_mobile_programming.Calendar.Event;
 import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
+import com.example.mrr.final_project_mobile_programming.Calendar.TaskToDo;
 import com.example.mrr.final_project_mobile_programming.R;
 
 import java.io.FileNotFoundException;
@@ -95,38 +96,52 @@ public class DayAdapter extends ArrayAdapter<Event> {
         else
             holder = (DayMeetingViewHandler) view.getTag();
 
-        Meeting meeting = (Meeting) mEvents.get(position);
+        if(mEvents.get(position).getClass() == Meeting.class) {
 
-        holder.tMeetingTime.setText(meeting.getHoursAsString());
-        holder.tMeetingTitle.setText(meeting.getTitle());
-        holder.tMeetingDescription.setText(meeting.getDescription());
+            Meeting meeting = (Meeting) mEvents.get(position);
 
-        if(meeting.getContacts() != null && meeting.getContacts().size() > 0) {
+            holder.tMeetingTime.setText(meeting.getHoursAsString());
+            holder.tMeetingTitle.setText(meeting.getTitle());
+            holder.tMeetingDescription.setText(meeting.getDescription());
 
-            String photo = meeting.getContacts().get(0).getPhoto();
+            if(meeting.getContacts() != null && meeting.getContacts().size() > 0) {
 
-            if(photo != null) {
+                String photo = meeting.getContacts().get(0).getPhoto();
 
-                try {
+                if(photo != null) {
 
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), Uri.parse(photo));
-                    holder.imageMeeting.setImageBitmap(bitmap);
-                }
+                    try {
 
-                catch (FileNotFoundException e) {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), Uri.parse(photo));
+                        holder.imageMeeting.setImageBitmap(bitmap);
+                    }
 
-                    e.printStackTrace();
-                }
+                    catch (FileNotFoundException e) {
 
-                catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                    e.printStackTrace();
+                    catch (IOException e) {
+
+                        e.printStackTrace();
+                    }
                 }
             }
+
+            else
+                holder.imageMeeting.setImageResource(R.drawable.ic_people);
         }
 
-        else
-            holder.imageMeeting.setImageResource(R.drawable.ic_people);
+        else if(mEvents.get(position).getClass() == TaskToDo.class) {
+
+            TaskToDo task = (TaskToDo) mEvents.get(position);
+
+            holder.tMeetingTime.setText(task.getHoursAsString());
+            holder.tMeetingTitle.setText(task.getTitle());
+            holder.tMeetingDescription.setText(task.getDescription());
+
+            holder.imageMeeting.setImageResource(task.getImageId());
+        }
 
         return view;
     }
