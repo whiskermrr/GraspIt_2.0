@@ -3,9 +3,11 @@ package com.example.mrr.final_project_mobile_programming.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
 
@@ -19,7 +21,7 @@ import com.example.mrr.final_project_mobile_programming.Utilities.UtilityListVie
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class DayFragment extends Fragment {
+public class DayFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     ListView meetingList;
     ListView dayToDoList;
@@ -35,6 +37,7 @@ public class DayFragment extends Fragment {
         View view = inflater.inflate(R.layout.day_fragment_layout, container, false);
 
         meetingList = (ListView) view.findViewById(R.id.dayMeetingsList);
+        meetingList.setOnItemClickListener(this);
         checkTextViewMeetings = (CheckedTextView) view.findViewById(R.id.checkTextViewMeetings);
         checkTextViewMeetings.setChecked(true);
         checkTextViewMeetings.setCheckMarkDrawable(R.drawable.ic_expand_less);
@@ -60,6 +63,7 @@ public class DayFragment extends Fragment {
         });
 
         dayToDoList = (ListView) view.findViewById(R.id.dayToDoList);
+        dayToDoList.setOnItemClickListener(this);
         checkTextViewToDo = (CheckedTextView) view.findViewById(R.id.checkTextViewToDo);
         checkTextViewToDo.setChecked(true);
         checkTextViewToDo.setCheckMarkDrawable(R.drawable.ic_expand_less);
@@ -145,5 +149,25 @@ public class DayFragment extends Fragment {
         dayToDoList.setAdapter(adapterTaskToDo);
         UtilityListViewHeight.setListViewHeightBasedOnItemsInList(meetingList);
         UtilityListViewHeight.setListViewHeightBasedOnItemsInList(dayToDoList);
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Log.w("DAY FRAGMENT", "Im in ItemClick!");
+
+        switch (parent.getId()) {
+
+            case R.id.dayToDoList:
+                communicator.setEvent(adapterTaskToDo.getItem(position));
+                communicator.showEventFragment();
+                break;
+
+            case R.id.dayMeetingsList:
+                communicator.setEvent(adapterMeetings.getItem(position));
+                communicator.showEventFragment();
+                break;
+        }
     }
 }

@@ -12,5 +12,8 @@ public interface Communicator {
     void updateDayFragment(int year, int month, int day);
     void addEventToDatabase(Event event);
     void showContactsFragment();
+    void showEventFragment();
     void updateAddEventFragment(ContactModel contact);
+    void setEvent(Event event);
+    Event getEvent();
 }

@@ -209,7 +209,12 @@ public class GridCalendarAdapter extends BaseAdapter {
                     && events.get(i).getMonth() == convertMonthToInt(month)
                     && events.get(i).getDay() == Integer.parseInt(day)) {
 
-                gridDay.setTextColor(Color.parseColor("#03BB3F"));
+                int parseColor = Color.parseColor("#03BB3F");
+
+                if(currentDayOfMonth == events.get(i).getDay())
+                    parseColor = Color.parseColor("#FFCA3A");
+
+                gridDay.setTextColor(parseColor);
                 tag += i + "-";
             }
         }
@@ -259,7 +264,7 @@ public class GridCalendarAdapter extends BaseAdapter {
                                     System.out.println(event.getContacts().get(j).getName());
                                     System.out.println(event.getContacts().get(j).getPhoneNumber());
                                     System.out.println(event.getContacts().get(j).getEmail());
-                                    System.out.println(Uri.parse(event.getContacts().get(j).getPhoto()));
+                                    //System.out.println(Uri.parse(event.getContacts().get(j).getPhoto()));
                                     System.out.println("----------------");
                                 }
                             }

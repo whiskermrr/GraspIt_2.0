@@ -12,6 +12,7 @@
     <string name="hour_hint_string">Hour</string>
     <string name="add_contact_button_string">Add Contact</string>
     <string name="todo_string">TODO</string>
+    <string name="contacts_textview_string">Contacts:</string>
 
     <string-array name="events_type">
 

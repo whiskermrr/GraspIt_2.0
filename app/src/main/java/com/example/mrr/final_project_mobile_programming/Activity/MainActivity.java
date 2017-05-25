@@ -21,6 +21,7 @@ import com.example.mrr.final_project_mobile_programming.Contacts.ContactsFragmen
 import com.example.mrr.final_project_mobile_programming.FCM.NotificationReceiver;
 import com.example.mrr.final_project_mobile_programming.Fragments.AddEventFragment;
 import com.example.mrr.final_project_mobile_programming.Fragments.DayFragment;
+import com.example.mrr.final_project_mobile_programming.Fragments.EventFragment;
 import com.example.mrr.final_project_mobile_programming.R;
 import com.example.mrr.final_project_mobile_programming.Utilities.CursorsFetcher;
 import com.example.mrr.final_project_mobile_programming.Utilities.EventHandler;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
     ViewPager viewPager = null;
     EventHandler eventHandler = null;
+    Event mEvent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,17 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         }
     }
 
+    @Override
+    public void setEvent(Event event) {
+
+        mEvent = event;
+    }
+
+    @Override
+    public Event getEvent() {
+
+        return mEvent;
+    }
 
     @Override
     public ArrayList<Event> getEvents() {
@@ -115,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         return events;
     }
 
-    //need selection between meetings and taskToDo
+
     @Override
     public ArrayList<Event> getEvents(int year, int month, int day) {
 
@@ -187,6 +200,15 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         ContactsFragment fragment = new ContactsFragment();
         FragmentManager manager = getSupportFragmentManager();
         fragment.show(manager, "AA");
+    }
+
+    @Override
+    public void showEventFragment() {
+
+        EventFragment fragment = new EventFragment();
+        FragmentManager manager = getSupportFragmentManager();
+        fragment.show(manager, "AA");
+
     }
 
     @Override
@@ -278,4 +300,6 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
         return calendar;
     }
+
+
 }

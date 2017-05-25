@@ -79,7 +79,6 @@ public class DayAdapter extends ArrayAdapter<Event> {
         notifyDataSetChanged();
     }
 
-    //need selection between meetings and taskToDo
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

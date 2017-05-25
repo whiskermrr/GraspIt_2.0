@@ -99,6 +99,14 @@ public class EventHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public Cursor getEventById(int id) {
+
+        db = getReadableDatabase();
+
+        return db.rawQuery("SELECT * FROM " + TABLE_MEETINGS + " WHERE " + COLUMN_ID + " = ?",
+                new String[] {Integer.toString(id)});
+    }
+
     public Cursor getCursorOfAllMeetings() {
 
         db = getReadableDatabase();

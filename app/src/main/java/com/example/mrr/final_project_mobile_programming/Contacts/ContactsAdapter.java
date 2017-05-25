@@ -11,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.mrr.final_project_mobile_programming.Calendar.Event;
 import com.example.mrr.final_project_mobile_programming.R;
 
 import java.io.FileNotFoundException;

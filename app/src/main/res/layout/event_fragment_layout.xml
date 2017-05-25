@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroud"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageEvent"
+            android:src="@drawable/brain_icon"
+            android:layout_marginTop="10dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/tTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:paddingEnd="15dp"
+            android:paddingStart="25dp"
+            android:paddingTop="8dp"
+            android:text="@string/title_string"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:background="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:textSize="28sp"
+            android:textAlignment="center"
+            android:focusable="false"
+            android:inputType="textNoSuggestions"
+            />
+
+        <TextView
+            android:id="@+id/tDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="25dp"
+            android:paddingEnd="15dp"
+            android:paddingTop="10dp"
+            android:textStyle="bold"
+            android:text="@string/description_string"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/etDescription"
+            android:background="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|start"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:lines="4"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:scrollbars="vertical"
+            android:focusable="false"
+            android:textAlignment="center"
+            />
+
+        <TextView
+            android:id="@+id/tDate"
+            android:textSize="32sp"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/tContacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:paddingEnd="15dp"
+            android:paddingStart="25dp"
+            android:paddingTop="8dp"
+            android:textStyle="bold"
+            android:textSize="23sp"
+            android:text="@string/contacts_textview_string"
+            android:textColor="#FFFFFF"
+            />
+
+        <ListView
+            android:id="@+id/contactsList"
+            android:background="#FFFFFF"
+            android:nestedScrollingEnabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            >
+
+        </ListView>
+
+        <Button
+            android:id="@+id/bOK"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="OK"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/circular_button_green"
+            />
+
+        <View
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            />
+
+    </LinearLayout>
+
+</ScrollView>
