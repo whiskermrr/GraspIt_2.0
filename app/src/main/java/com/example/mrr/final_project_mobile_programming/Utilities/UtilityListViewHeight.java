@@ -25,7 +25,6 @@ public class UtilityListViewHeight {
             int measureSize = View.MeasureSpec.makeMeasureSpec(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             listItem.measure(measureSize , measureSize);
             totalHeight += listItem.getMeasuredHeight();
-            System.out.println(listItem.getMeasuredHeight());
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();

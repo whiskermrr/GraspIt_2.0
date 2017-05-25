@@ -76,6 +76,7 @@ public class DayAdapter extends ArrayAdapter<Event> {
     public void addEventToList(Event event) {
 
         mEvents.add(event);
+        notifyDataSetChanged();
     }
 
     //need selection between meetings and taskToDo

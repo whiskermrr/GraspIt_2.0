@@ -23,6 +23,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.LoginActivity"></activity>
+
+        <receiver android:name=".FCM.NotificationReceiver">
+            <intent-filter>
+                    <action android:name="com.example.mrr.Action1"/>
+            </intent-filter>
+
+        </receiver>
+
     </application>
 
 </manifest>

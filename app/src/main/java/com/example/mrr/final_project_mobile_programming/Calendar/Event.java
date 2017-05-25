@@ -11,6 +11,7 @@ public abstract class Event {
     private int notificationHour;
     private int notificationMinute;
     private int typeId;
+    boolean hasNotification;
 
     public Event(String title, String description, Date date, int notificationHour, int notificationMinute, int typeId) {
 
@@ -20,6 +21,7 @@ public abstract class Event {
         this.notificationHour = notificationHour;
         this.notificationMinute = notificationMinute;
         this.typeId = typeId;
+        hasNotification = (notificationHour != 0 || notificationMinute != 0);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -58,6 +60,13 @@ public abstract class Event {
         return calendar.get(Calendar.YEAR);
     }
 
+    public boolean isHasNotification() {
+        return hasNotification;
+    }
+
+    public void setHasNotification(boolean hasNotification) {
+        this.hasNotification = hasNotification;
+    }
 
     public int getMonth() {
 

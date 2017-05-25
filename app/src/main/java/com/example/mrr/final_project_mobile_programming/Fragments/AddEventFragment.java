@@ -43,6 +43,7 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
 
     LinearLayout notificationLayout;
     LinearLayout iconLayout;
+    LinearLayout contactLayout;
     ListView contactsList;
     Switch notificationSwitch;
     ImageButton bAddContact;
@@ -74,6 +75,7 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
         clickedIcon = false;
         idOfChosenImage = -1;
 
+        contactLayout = (LinearLayout) view.findViewById(R.id.contactLayout);
         notificationLayout = (LinearLayout) view.findViewById(R.id.notificationLayout);
         notificationLayout.setVisibility(LinearLayout.GONE);
         iconLayout = (LinearLayout) view.findViewById(R.id.iconLayout);
@@ -335,11 +337,13 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
         if(position == 0) {
 
             iconLayout.setVisibility(LinearLayout.GONE);
+            contactLayout.setVisibility(LinearLayout.VISIBLE);
         }
 
         else if(position == 1) {
 
             iconLayout.setVisibility(LinearLayout.VISIBLE);
+            contactLayout.setVisibility(LinearLayout.GONE);
         }
     }
 

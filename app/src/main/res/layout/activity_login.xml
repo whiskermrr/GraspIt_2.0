@@ -39,4 +39,39 @@
         android:layout_marginStart="130dp"
         />
 
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sign_in_button"
+        android:hint="email"
+        />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etEmail"
+        android:hint="password"
+        />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/etPassword"
+        android:layout_marginStart="120dp"
+        android:text="Log In"
+        />
+
+    <Button
+        android:id="@+id/signButton"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/loginButton"
+        android:layout_marginStart="120dp"
+        android:text="CreateAccount"
+        />
+
 </RelativeLayout>
