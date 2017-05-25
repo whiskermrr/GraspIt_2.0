@@ -234,6 +234,7 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
                     ArrayList<ContactModel> contacts = adapter.getAllContacts();
                     meeting.setContacts(contacts);
                     adapter.clearContactList();
+                    UtilityListViewHeight.setListViewHeightBasedOnItemsInList(contactsList);
                 }
 
                 communicator.addEventToDatabase(meeting);

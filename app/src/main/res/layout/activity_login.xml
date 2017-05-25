@@ -45,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sign_in_button"
+        android:textAlignment="center"
         android:hint="email"
         />
 
@@ -54,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/etEmail"
         android:inputType="textPassword"
+        android:textAlignment="center"
         android:hint="password"
         />
 
@@ -64,6 +66,9 @@
         android:layout_below="@id/etPassword"
         android:layout_marginStart="120dp"
         android:text="Log In"
+        android:layout_marginTop="15dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/circular_button_green"
         />
 
     <Button
@@ -73,6 +78,9 @@
         android:layout_below="@id/loginButton"
         android:layout_marginStart="120dp"
         android:text="CreateAccount"
+        android:layout_marginTop="15dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/circular_button_green"
         />
 
 </RelativeLayout>

@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         AlarmManager alarmManager = (AlarmManager) getApplicationContext()
                 .getSystemService(ALARM_SERVICE);
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
 
