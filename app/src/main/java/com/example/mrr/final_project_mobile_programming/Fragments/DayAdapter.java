@@ -100,7 +100,7 @@ public class DayAdapter extends ArrayAdapter<Event> {
 
             Meeting meeting = (Meeting) mEvents.get(position);
 
-            holder.tMeetingTime.setText(meeting.getHoursAsString());
+            holder.tMeetingTime.setText(meeting.HourAsString());
             holder.tMeetingTitle.setText(meeting.getTitle());
             holder.tMeetingDescription.setText(meeting.getDescription());
 
@@ -136,7 +136,7 @@ public class DayAdapter extends ArrayAdapter<Event> {
 
             TaskToDo task = (TaskToDo) mEvents.get(position);
 
-            holder.tMeetingTime.setText(task.getHoursAsString());
+            holder.tMeetingTime.setText(task.HourAsString());
             holder.tMeetingTitle.setText(task.getTitle());
             holder.tMeetingDescription.setText(task.getDescription());
 

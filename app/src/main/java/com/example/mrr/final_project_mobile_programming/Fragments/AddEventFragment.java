@@ -224,10 +224,12 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
             }
 
             int typeId = spinnerEvent.getSelectedItemPosition();
+            int _id = communicator.getLastAddedMeetingId();
 
             if(typeId == 0) {
 
                 Meeting meeting = new Meeting(title, description, date, notifiHour, notifiMinute, typeId);
+                meeting.set_id(Integer.toString(_id + 1));
 
                 if(adapter != null) {
 
@@ -243,6 +245,7 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
             else if(typeId == 1 && clickedIcon) {
 
                 TaskToDo task = new TaskToDo(title, description, date, notifiHour, notifiMinute, typeId, idOfChosenImage);
+                task.set_id(Integer.toString(_id + 1));
                 communicator.addEventToDatabase(task);
             }
 

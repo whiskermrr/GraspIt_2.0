@@ -34,6 +34,7 @@ public class EventHandler extends SQLiteOpenHelper {
     public static final String COLUMN_NOTIFICATION_HOUR = "notification_hour";
     public static final String COLUMN_NOTIFICATION_MINUTE = "notification_minute";
     public static final String COLUMN_TASK_ICON = "task_icon";
+    public static final String COLUMN_FIREBASE_KEY = "firebase_key";
 
     //Meeting variables
     public static final String COLUMN_CONTACT_EVENT_ID = "contact_event_id";
@@ -67,7 +68,8 @@ public class EventHandler extends SQLiteOpenHelper {
                 COLUMN_MINUTE + " INTEGER NOT NULL," +
                 COLUMN_NOTIFICATION_HOUR + " INTEGER NOT NULL," +
                 COLUMN_NOTIFICATION_MINUTE + " INTEGER NOT NULL," +
-                COLUMN_TASK_ICON + " INTEGER NOT NULL" +
+                COLUMN_TASK_ICON + " INTEGER NOT NULL," +
+                COLUMN_FIREBASE_KEY + " TEXT" +
                 ");";
 
         String queryContact = "CREATE TABLE " + TABLE_CONTACTS + "(" +
@@ -89,6 +91,29 @@ public class EventHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEETINGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
         onCreate(db);
+    }
+
+    public boolean isEventInDatabase(String firebaseKey) {
+
+        db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_FIREBASE_KEY + " FROM " + TABLE_MEETINGS + " WHERE " +
+        COLUMN_FIREBASE_KEY + " = ?", new String[] {firebaseKey});
+
+        boolean hasEvent = (cursor.getCount() > 0);
+
+        cursor.close();
+        db.close();
+
+        return hasEvent;
+    }
+
+    public void updateEventFirebaseKey(String id, String firebaseKey) {
+
+        db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_FIREBASE_KEY, firebaseKey);
+        db.update(TABLE_MEETINGS, values, "_id = " + id, null);
+        db.close();
     }
 
     public void addEvent(Event event) {
@@ -142,15 +167,16 @@ public class EventHandler extends SQLiteOpenHelper {
 
         values.put(COLUMN_TITLE, event.getTitle());
         values.put(COLUMN_DESCRIPTION, event.getDescription());
-        values.put(COLUMN_DATE, event.getDateAsLong());
-        values.put(COLUMN_YEAR, event.getYear());
-        values.put(COLUMN_MONTH, event.getMonth());
-        values.put(COLUMN_DAY, event.getDay());
-        values.put(COLUMN_HOUR, event.getHour());
-        values.put(COLUMN_MINUTE, event.getMinute());
+        values.put(COLUMN_DATE, event.DateAsLong());
+        values.put(COLUMN_YEAR, event.Year());
+        values.put(COLUMN_MONTH, event.Month());
+        values.put(COLUMN_DAY, event.Day());
+        values.put(COLUMN_HOUR, event.Hour());
+        values.put(COLUMN_MINUTE, event.Minute());
         values.put(COLUMN_NOTIFICATION_HOUR, event.getNotificationHour());
         values.put(COLUMN_NOTIFICATION_MINUTE, event.getNotificationMinute());
         values.put(COLUMN_TYPE_OF_EVENT, event.getTypeId());
+        values.put(COLUMN_FIREBASE_KEY, event.getFirebaseKey());
 
         int imageValue = -1;
 
@@ -192,7 +218,7 @@ public class EventHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    private int getLastAddedMeetingId() {
+    public int getLastAddedMeetingId() {
 
         db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT " + COLUMN_ID + " FROM " + TABLE_MEETINGS + " WHERE " + COLUMN_TYPE_OF_EVENT + " = ?",

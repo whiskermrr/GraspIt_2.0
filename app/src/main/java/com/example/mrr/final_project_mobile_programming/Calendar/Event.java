@@ -3,7 +3,7 @@ package com.example.mrr.final_project_mobile_programming.Calendar;
 import java.util.Calendar;
 import java.util.Date;
 
-public abstract class Event {
+public class Event {
 
     private String title;
     private String description;
@@ -12,6 +12,14 @@ public abstract class Event {
     private int notificationMinute;
     private int typeId;
     boolean hasNotification;
+    String _id;
+    String firebaseKey;
+    boolean hasFirebaseKey;
+
+    public Event() {
+
+
+    }
 
     public Event(String title, String description, Date date, int notificationHour, int notificationMinute, int typeId) {
 
@@ -22,11 +30,31 @@ public abstract class Event {
         this.notificationMinute = notificationMinute;
         this.typeId = typeId;
         hasNotification = (notificationHour != 0 || notificationMinute != 0);
+        firebaseKey = null;
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
     }
 
+    public boolean isHasFirebaseKey() {
+
+        return (firebaseKey != null);
+    }
+
+    public void setHasFirebaseKey(boolean hasFirebaseKey) {
+
+        this.hasFirebaseKey = hasFirebaseKey;
+    }
+
+    public String getFirebaseKey() {
+
+        return firebaseKey;
+    }
+
+    public void setFirebaseKey(String firebaseKey) {
+
+        this.firebaseKey = firebaseKey;
+    }
 
     public String getTitle() {
         return title;
@@ -52,7 +80,7 @@ public abstract class Event {
         this.date = date;
     }
 
-    public int getYear() {
+    public int Year() {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -68,7 +96,7 @@ public abstract class Event {
         this.hasNotification = hasNotification;
     }
 
-    public int getMonth() {
+    public int Month() {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -76,7 +104,7 @@ public abstract class Event {
         return calendar.get(Calendar.MONTH);
     }
 
-    public int getDay() {
+    public int Day() {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -84,7 +112,7 @@ public abstract class Event {
         return calendar.get(Calendar.DAY_OF_MONTH);
     }
 
-    public int getHour() {
+    public int Hour() {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -92,31 +120,26 @@ public abstract class Event {
         return calendar.get(Calendar.HOUR_OF_DAY);
     }
 
-    public int getMinute() {
+    public int Minute() {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.MINUTE);
     }
 
-    public long getDateAsLong() {
+    public long DateAsLong() {
 
         return date.getTime();
     }
 
-    public void setDate(long time) {
+    public String HourAsString() {
 
-        date = new Date(time * 1000);
-    }
+        if(this.Minute() > 9) {
 
-    public String getHoursAsString() {
-
-        if(this.getMinute() > 9) {
-
-            return this.getHour() + ":" + this.getMinute();
+            return this.Hour() + ":" + this.Minute();
         }
 
-        else return this.getHour() + ":0" + this.getMinute();
+        else return this.Hour() + ":0" + this.Minute();
     }
 
     public int getNotificationHour() {
@@ -147,6 +170,14 @@ public abstract class Event {
     public void setTypeId(int typeId) {
 
         this.typeId = typeId;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }
 

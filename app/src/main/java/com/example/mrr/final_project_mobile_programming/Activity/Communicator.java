@@ -16,4 +16,5 @@ public interface Communicator {
     void updateAddEventFragment(ContactModel contact);
     void setEvent(Event event);
     Event getEvent();
+    int getLastAddedMeetingId();
 }

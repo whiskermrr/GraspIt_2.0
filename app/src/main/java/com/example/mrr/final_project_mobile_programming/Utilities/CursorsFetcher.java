@@ -31,11 +31,14 @@ public class CursorsFetcher {
                 int meetingId = cursorEvents.getInt(cursorEvents.getColumnIndex(EventHandler.COLUMN_ID));
                 int typeId = cursorEvents.getInt(cursorEvents.getColumnIndex(EventHandler.COLUMN_TYPE_OF_EVENT));
                 int imageId = cursorEvents.getInt(cursorEvents.getColumnIndex(EventHandler.COLUMN_TASK_ICON));
+                String firebaseKey = cursorEvents.getString(cursorEvents.getColumnIndex(EventHandler.COLUMN_FIREBASE_KEY));
 
 
                 if(typeId == 0) {
 
                     Meeting event = new Meeting(title, description, new Date(date), notificationHour, notificationMinute, typeId);
+                    event.set_id(Integer.toString(meetingId));
+                    event.setFirebaseKey(firebaseKey);
 
                     if(cursorContacts != null) {
 
@@ -67,6 +70,8 @@ public class CursorsFetcher {
                 else if(typeId == 1) {
 
                     TaskToDo event = new TaskToDo(title, description, new Date(date), notificationHour, notificationMinute, typeId, imageId);
+                    event.setFirebaseKey(firebaseKey);
+                    event.set_id(Integer.toString(meetingId));
                     events.add(event);
                 }
             }

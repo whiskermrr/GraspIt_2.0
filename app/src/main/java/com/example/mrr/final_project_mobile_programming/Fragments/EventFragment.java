@@ -84,7 +84,7 @@ public class EventFragment extends DialogFragment implements AdapterView.OnItemC
 
         etTitle.setText(event.getTitle());
         etDescription.setText(event.getDescription());
-        tDate.setText(event.getDay() + " " + months[event.getMonth()] + " " + event.getYear() + ", " + event.getHoursAsString());
+        tDate.setText(event.Day() + " " + months[event.Month()] + " " + event.Year() + ", " + event.HourAsString());
 
         if(event.getClass() == Meeting.class) {
 

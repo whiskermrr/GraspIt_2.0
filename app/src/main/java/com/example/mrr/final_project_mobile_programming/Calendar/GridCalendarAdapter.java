@@ -2,7 +2,6 @@ package com.example.mrr.final_project_mobile_programming.Calendar;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -205,13 +204,13 @@ public class GridCalendarAdapter extends BaseAdapter {
 
         for(int i = 0; i < events.size(); i++) {
 
-            if(events.get(i).getYear() == Integer.parseInt(year)
-                    && events.get(i).getMonth() == convertMonthToInt(month)
-                    && events.get(i).getDay() == Integer.parseInt(day)) {
+            if(events.get(i).Year() == Integer.parseInt(year)
+                    && events.get(i).Month() == convertMonthToInt(month)
+                    && events.get(i).Day() == Integer.parseInt(day)) {
 
                 int parseColor = Color.parseColor("#03BB3F");
 
-                if(currentDayOfMonth == events.get(i).getDay())
+                if(currentDayOfMonth == events.get(i).Day())
                     parseColor = Color.parseColor("#FFCA3A");
 
                 gridDay.setTextColor(parseColor);
@@ -253,9 +252,9 @@ public class GridCalendarAdapter extends BaseAdapter {
 
                                 System.out.println("TITLE: " + event.getTitle());
                                 System.out.println("DESCRIPTION: " + event.getDescription());
-                                System.out.println("YEAR: " + event.getYear());
-                                System.out.println("MONTH: " + event.getMonth());
-                                System.out.println("DAY: " + event.getDay());
+                                System.out.println("YEAR: " + event.Year());
+                                System.out.println("MONTH: " + event.Month());
+                                System.out.println("DAY: " + event.Day());
                                 System.out.println("TYPE: " +event.getTypeId());
                                 System.out.println("----------------");
 
@@ -275,9 +274,9 @@ public class GridCalendarAdapter extends BaseAdapter {
 
                                 System.out.println("TITLE: " + event.getTitle());
                                 System.out.println("DESCRIPTION: " + event.getDescription());
-                                System.out.println("YEAR: " + event.getYear());
-                                System.out.println("MONTH: " + event.getMonth());
-                                System.out.println("DAY: " + event.getDay());
+                                System.out.println("YEAR: " + event.Year());
+                                System.out.println("MONTH: " + event.Month());
+                                System.out.println("DAY: " + event.Day());
                                 System.out.println("TYPE: " + event.getTypeId());
                                 System.out.println("IMAGE: " + event.getImageId());
                                 System.out.println("----------------");

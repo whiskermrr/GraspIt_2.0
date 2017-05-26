@@ -6,6 +6,11 @@ public class TaskToDo extends Event {
 
     int imageId;
 
+    public TaskToDo() {
+
+
+    }
+
     public TaskToDo(String title, String description, Date date, int notificationHour, int notificationMinute, int typeId, int imageId) {
 
         super(title, description, date, notificationHour, notificationMinute, typeId);

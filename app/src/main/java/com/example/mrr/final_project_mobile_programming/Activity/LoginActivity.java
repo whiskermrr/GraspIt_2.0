@@ -1,7 +1,11 @@
 package com.example.mrr.final_project_mobile_programming.Activity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +42,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button loginButton;
     Button signButton;
 
+    public static final int PERMISSION_ALL = 1;
+
+    public static final String[] PERMISSION = {
+
+            Manifest.permission.READ_CONTACTS,
+            Manifest.permission.READ_CALL_LOG,
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.INTERNET,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.RECEIVE_BOOT_COMPLETED
+    };
+
     static final int RC_SIGN_IN = 1;
 
 
@@ -45,6 +62,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if(!hasPermission(this, PERMISSION)) {
+
+            ActivityCompat.requestPermissions(this, PERMISSION, PERMISSION_ALL);
+        }
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("542047351553-qh66jst1ok4and1afm5evnr2ae6698p6.apps.googleusercontent.com")
@@ -69,7 +91,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);
 
+        etEmail.setText("witek119@gmail.com");
+        etPassword.setText("1234567890");
+    }
 
+    public static boolean hasPermission(Context context, String[] permissions) {
+
+        for(String permission : permissions) {
+
+            if(ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
+                return false;
+        }
+
+        return true;
+    }
+
+    public void onRequestPermissionsResult(int requestCode, int grantResult) {
+
+        switch (requestCode) {
+
+            case PERMISSION_ALL:
+
+                if(grantResult == PackageManager.PERMISSION_GRANTED) {
+
+                    System.out.println("PERMISSION GRANTED!");
+                }
+
+                else
+                    System.out.println("PERMISSION DENIED");
+        }
     }
 
     @Override
@@ -151,11 +201,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+
                             user = mAuth.getCurrentUser();
                             updateUI(true);
                         } else {
-                            // If sign in fails, display a message to the user.
+
                             updateUI(false);
                         }
                     }
@@ -173,13 +223,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("Mrr", "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            Toast.makeText(LoginActivity.this, "Account Created!", Toast.LENGTH_SHORT).show();
                             updateUI(true);
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("MRr", "createUserWithEmail:failure", task.getException());
+
                             updateUI(false);
                         }
                     }
@@ -196,13 +244,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("Mrr", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+
                             updateUI(true);
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("Mrr", "signInWithEmail:failure", task.getException());
+
                             Toast.makeText(LoginActivity.this, "Wrong Data", Toast.LENGTH_SHORT).show();
                             updateUI(false);
                         }
