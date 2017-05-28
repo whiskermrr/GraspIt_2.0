@@ -1,11 +1,10 @@
-package com.example.mrr.final_project_mobile_programming.Activity;
+package com.example.mrr.final_project_mobile_programming.Adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.mrr.final_project_mobile_programming.Calendar.GridCalendarFragment;
-import com.example.mrr.final_project_mobile_programming.Contacts.ContactsFragment;
+import com.example.mrr.final_project_mobile_programming.Fragments.GridCalendarFragment;
 import com.example.mrr.final_project_mobile_programming.Fragments.AddEventFragment;
 import com.example.mrr.final_project_mobile_programming.Fragments.DayFragment;
 

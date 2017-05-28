@@ -1,4 +1,4 @@
-package com.example.mrr.final_project_mobile_programming.Contacts;
+package com.example.mrr.final_project_mobile_programming.Adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mrr.final_project_mobile_programming.Calendar.Event;
+import com.example.mrr.final_project_mobile_programming.Contacts.ContactModel;
 import com.example.mrr.final_project_mobile_programming.R;
 
 import java.io.FileNotFoundException;

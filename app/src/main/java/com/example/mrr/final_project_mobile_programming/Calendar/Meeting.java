@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Meeting extends Event {
 
-    ArrayList<ContactModel> contacts;
+    private ArrayList<ContactModel> contacts;
 
     public Meeting() {
 

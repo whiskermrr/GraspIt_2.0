@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.widget.Toast;
 
 import com.example.mrr.final_project_mobile_programming.Calendar.Event;
+import com.example.mrr.final_project_mobile_programming.Utilities.CalendarUtility;
 import com.example.mrr.final_project_mobile_programming.Utilities.CursorsFetcher;
 import com.example.mrr.final_project_mobile_programming.Utilities.EventHandler;
 import com.google.firebase.database.DatabaseReference;
@@ -59,7 +60,7 @@ public class myJobService extends JobService {
             Toast.makeText(getApplicationContext(), "Firebase database updated!", Toast.LENGTH_SHORT).show();
         }
 
-        if(id == 2) {
+        if(id == 1) {
 
             Calendar calendar = Calendar.getInstance();
 
@@ -87,26 +88,26 @@ public class myJobService extends JobService {
 
     private void setAlarm(Event event) {
 
-        if(!event.isHasNotification())
+        if(!event.getNotification().isHasNotification())
             return;
 
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
 
-        if(event.Hour() - event.getNotificationHour() < hour)
+        if(event.getCustomDate().Hour() - event.getNotification().getNotificationHour() < hour)
             return;
 
-        if(event.Hour() - event.getNotificationHour() == hour
-                && event.Minute() - event.getNotificationMinute() <= minute)
+        if(event.getCustomDate().Hour() - event.getNotification().getNotificationHour() == hour
+                && event.getCustomDate().Minute() - event.getNotification().getNotificationMinute() <= minute)
             return;
 
-        calendar = prepareCalendarForNotification(event);
+        calendar = CalendarUtility.prepareCalendarForNotification(event);
 
         Intent intent = new Intent("com.example.mrr.Action1");
         intent.putExtra(NotificationReceiver.NOTIFICATION_TITLE, event.getTitle());
         intent.putExtra(NotificationReceiver.NOTIFICATION_TYPE, event.getTypeId());
-        intent.putExtra(NotificationReceiver.NOTIFICATION_HOURS, event.HourAsString());
+        intent.putExtra(NotificationReceiver.NOTIFICATION_HOURS, event.getCustomDate().HourAsString());
 
         final int id = (int) System.currentTimeMillis();
 
@@ -120,42 +121,6 @@ public class myJobService extends JobService {
                 .getSystemService(ALARM_SERVICE);
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-    }
-
-    private Calendar prepareCalendarForNotification(Event event) {
-
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.set(Calendar.YEAR, event.Year());
-        calendar.set(Calendar.MONTH, event.Month());
-
-        if(event.Hour() - event.getNotificationHour() < 0) {
-
-            calendar.set(Calendar.DAY_OF_MONTH, event.Day() - 1);
-            calendar.set(Calendar.HOUR_OF_DAY, 24 - (event.Hour() - event.getNotificationHour()));
-
-        }
-
-        else {
-
-            calendar.set(Calendar.DAY_OF_MONTH, event.Day());
-            calendar.set(Calendar.HOUR_OF_DAY, event.Hour() - event.getNotificationHour());
-        }
-
-        if(event.Minute() - event.getNotificationMinute() < 0) {
-
-            calendar.set(Calendar.HOUR_OF_DAY, event.Hour() - 1);
-            calendar.set(Calendar.MINUTE, 60 - (event.Minute() - event.getNotificationMinute()));
-        }
-
-        else {
-
-            calendar.set(Calendar.MINUTE, event.Minute() - event.getNotificationMinute());
-        }
-
-        calendar.set(Calendar.SECOND, 0);
-
-        return calendar;
     }
 
     public ArrayList<Event> getEvents(int year, int month, int day) {
@@ -180,7 +145,7 @@ public class myJobService extends JobService {
             @Override
             public int compare(Event o1, Event o2) {
 
-                return o1.getDate().compareTo(o2.getDate());
+                return o1.getCustomDate().getDate().compareTo(o2.getCustomDate().getDate());
             }
         });
 

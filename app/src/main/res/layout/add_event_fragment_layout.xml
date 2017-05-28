@@ -27,14 +27,14 @@
             android:layout_marginTop="10dp"
             >
 
-            <com.example.mrr.final_project_mobile_programming.Fragments.CustomImageView
+            <com.example.mrr.final_project_mobile_programming.Calendar.CustomImageView
                 android:id="@+id/iBook"
                 android:src="@drawable/book_icon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 />
 
-            <com.example.mrr.final_project_mobile_programming.Fragments.CustomImageView
+            <com.example.mrr.final_project_mobile_programming.Calendar.CustomImageView
                 android:id="@+id/iBrain"
                 android:src="@drawable/brain_icon"
                 android:layout_width="50dp"
@@ -42,7 +42,7 @@
                 android:layout_marginStart="10dp"
                 />
 
-            <com.example.mrr.final_project_mobile_programming.Fragments.CustomImageView
+            <com.example.mrr.final_project_mobile_programming.Calendar.CustomImageView
                 android:id="@+id/iWorkout"
                 android:src="@drawable/workout_icon"
                 android:layout_width="50dp"

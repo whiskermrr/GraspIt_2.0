@@ -12,6 +12,7 @@ import android.widget.CheckedTextView;
 import android.widget.ListView;
 
 import com.example.mrr.final_project_mobile_programming.Activity.Communicator;
+import com.example.mrr.final_project_mobile_programming.Adapters.DayAdapter;
 import com.example.mrr.final_project_mobile_programming.Calendar.Event;
 import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
 import com.example.mrr.final_project_mobile_programming.Calendar.TaskToDo;

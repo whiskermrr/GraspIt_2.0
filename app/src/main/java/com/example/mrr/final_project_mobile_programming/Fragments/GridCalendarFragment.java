@@ -1,4 +1,4 @@
-package com.example.mrr.final_project_mobile_programming.Calendar;
+package com.example.mrr.final_project_mobile_programming.Fragments;
 
 
 import android.content.Context;
@@ -12,6 +12,8 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.mrr.final_project_mobile_programming.Activity.Communicator;
+import com.example.mrr.final_project_mobile_programming.Adapters.GridCalendarAdapter;
+import com.example.mrr.final_project_mobile_programming.Calendar.Event;
 import com.example.mrr.final_project_mobile_programming.R;
 import com.example.mrr.final_project_mobile_programming.Utilities.EventHandler;
 

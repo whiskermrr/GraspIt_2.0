@@ -20,10 +20,11 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.mrr.final_project_mobile_programming.Activity.Communicator;
+import com.example.mrr.final_project_mobile_programming.Calendar.CustomImageView;
 import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
 import com.example.mrr.final_project_mobile_programming.Calendar.TaskToDo;
 import com.example.mrr.final_project_mobile_programming.Contacts.ContactModel;
-import com.example.mrr.final_project_mobile_programming.Contacts.ContactsAdapter;
+import com.example.mrr.final_project_mobile_programming.Adapters.ContactsAdapter;
 import com.example.mrr.final_project_mobile_programming.R;
 import com.example.mrr.final_project_mobile_programming.Utilities.UtilityListViewHeight;
 

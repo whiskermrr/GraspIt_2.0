@@ -23,7 +23,7 @@ import com.example.mrr.final_project_mobile_programming.Activity.Communicator;
 import com.example.mrr.final_project_mobile_programming.Calendar.Event;
 import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
 import com.example.mrr.final_project_mobile_programming.Calendar.TaskToDo;
-import com.example.mrr.final_project_mobile_programming.Contacts.ContactsAdapter;
+import com.example.mrr.final_project_mobile_programming.Adapters.ContactsAdapter;
 import com.example.mrr.final_project_mobile_programming.R;
 
 import java.io.FileNotFoundException;
@@ -84,7 +84,10 @@ public class EventFragment extends DialogFragment implements AdapterView.OnItemC
 
         etTitle.setText(event.getTitle());
         etDescription.setText(event.getDescription());
-        tDate.setText(event.Day() + " " + months[event.Month()] + " " + event.Year() + ", " + event.HourAsString());
+        tDate.setText(event.getCustomDate().Day() + " " +
+                months[event.getCustomDate().Month()] + " " +
+                event.getCustomDate().Year() + ", " +
+                event.getCustomDate().HourAsString());
 
         if(event.getClass() == Meeting.class) {
 

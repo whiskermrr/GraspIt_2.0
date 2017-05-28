@@ -1,4 +1,4 @@
-package com.example.mrr.final_project_mobile_programming.Contacts;
+package com.example.mrr.final_project_mobile_programming.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.mrr.final_project_mobile_programming.Activity.Communicator;
+import com.example.mrr.final_project_mobile_programming.Adapters.ContactsAdapter;
+import com.example.mrr.final_project_mobile_programming.Contacts.ContactModel;
 import com.example.mrr.final_project_mobile_programming.R;
 import com.example.mrr.final_project_mobile_programming.Utilities.ContactsFetcher;
 

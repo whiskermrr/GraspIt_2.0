@@ -1,4 +1,4 @@
-package com.example.mrr.final_project_mobile_programming.Calendar;
+package com.example.mrr.final_project_mobile_programming.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.example.mrr.final_project_mobile_programming.Activity.Communicator;
+import com.example.mrr.final_project_mobile_programming.Calendar.Event;
+import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
+import com.example.mrr.final_project_mobile_programming.Calendar.TaskToDo;
 import com.example.mrr.final_project_mobile_programming.R;
 
 import java.util.ArrayList;
@@ -204,13 +207,13 @@ public class GridCalendarAdapter extends BaseAdapter {
 
         for(int i = 0; i < events.size(); i++) {
 
-            if(events.get(i).Year() == Integer.parseInt(year)
-                    && events.get(i).Month() == convertMonthToInt(month)
-                    && events.get(i).Day() == Integer.parseInt(day)) {
+            if(events.get(i).getCustomDate().Year() == Integer.parseInt(year)
+                    && events.get(i).getCustomDate().Month() == convertMonthToInt(month)
+                    && events.get(i).getCustomDate().Day() == Integer.parseInt(day)) {
 
                 int parseColor = Color.parseColor("#03BB3F");
 
-                if(currentDayOfMonth == events.get(i).Day())
+                if(currentDayOfMonth == events.get(i).getCustomDate().Day())
                     parseColor = Color.parseColor("#FFCA3A");
 
                 gridDay.setTextColor(parseColor);
@@ -252,9 +255,9 @@ public class GridCalendarAdapter extends BaseAdapter {
 
                                 System.out.println("TITLE: " + event.getTitle());
                                 System.out.println("DESCRIPTION: " + event.getDescription());
-                                System.out.println("YEAR: " + event.Year());
-                                System.out.println("MONTH: " + event.Month());
-                                System.out.println("DAY: " + event.Day());
+                                System.out.println("YEAR: " + event.getCustomDate().Year());
+                                System.out.println("MONTH: " + event.getCustomDate().Month());
+                                System.out.println("DAY: " + event.getCustomDate().Day());
                                 System.out.println("TYPE: " +event.getTypeId());
                                 System.out.println("----------------");
 
@@ -274,9 +277,9 @@ public class GridCalendarAdapter extends BaseAdapter {
 
                                 System.out.println("TITLE: " + event.getTitle());
                                 System.out.println("DESCRIPTION: " + event.getDescription());
-                                System.out.println("YEAR: " + event.Year());
-                                System.out.println("MONTH: " + event.Month());
-                                System.out.println("DAY: " + event.Day());
+                                System.out.println("YEAR: " + event.getCustomDate().Year());
+                                System.out.println("MONTH: " + event.getCustomDate().Month());
+                                System.out.println("DAY: " + event.getCustomDate().Day());
                                 System.out.println("TYPE: " + event.getTypeId());
                                 System.out.println("IMAGE: " + event.getImageId());
                                 System.out.println("----------------");

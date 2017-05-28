@@ -1,4 +1,4 @@
-package com.example.mrr.final_project_mobile_programming.Fragments;
+package com.example.mrr.final_project_mobile_programming.Adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -100,7 +100,7 @@ public class DayAdapter extends ArrayAdapter<Event> {
 
             Meeting meeting = (Meeting) mEvents.get(position);
 
-            holder.tMeetingTime.setText(meeting.HourAsString());
+            holder.tMeetingTime.setText(meeting.getCustomDate().HourAsString());
             holder.tMeetingTitle.setText(meeting.getTitle());
             holder.tMeetingDescription.setText(meeting.getDescription());
 
@@ -136,7 +136,7 @@ public class DayAdapter extends ArrayAdapter<Event> {
 
             TaskToDo task = (TaskToDo) mEvents.get(position);
 
-            holder.tMeetingTime.setText(task.HourAsString());
+            holder.tMeetingTime.setText(task.getCustomDate().HourAsString());
             holder.tMeetingTitle.setText(task.getTitle());
             holder.tMeetingDescription.setText(task.getDescription());
 

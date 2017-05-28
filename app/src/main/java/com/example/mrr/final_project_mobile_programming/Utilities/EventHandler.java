@@ -167,14 +167,14 @@ public class EventHandler extends SQLiteOpenHelper {
 
         values.put(COLUMN_TITLE, event.getTitle());
         values.put(COLUMN_DESCRIPTION, event.getDescription());
-        values.put(COLUMN_DATE, event.DateAsLong());
-        values.put(COLUMN_YEAR, event.Year());
-        values.put(COLUMN_MONTH, event.Month());
-        values.put(COLUMN_DAY, event.Day());
-        values.put(COLUMN_HOUR, event.Hour());
-        values.put(COLUMN_MINUTE, event.Minute());
-        values.put(COLUMN_NOTIFICATION_HOUR, event.getNotificationHour());
-        values.put(COLUMN_NOTIFICATION_MINUTE, event.getNotificationMinute());
+        values.put(COLUMN_DATE, event.getCustomDate().DateAsLong());
+        values.put(COLUMN_YEAR, event.getCustomDate().Year());
+        values.put(COLUMN_MONTH, event.getCustomDate().Month());
+        values.put(COLUMN_DAY, event.getCustomDate().Day());
+        values.put(COLUMN_HOUR, event.getCustomDate().Hour());
+        values.put(COLUMN_MINUTE, event.getCustomDate().Minute());
+        values.put(COLUMN_NOTIFICATION_HOUR, event.getNotification().getNotificationHour());
+        values.put(COLUMN_NOTIFICATION_MINUTE, event.getNotification().getNotificationMinute());
         values.put(COLUMN_TYPE_OF_EVENT, event.getTypeId());
         values.put(COLUMN_FIREBASE_KEY, event.getFirebaseKey());
 

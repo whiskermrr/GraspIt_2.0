@@ -7,11 +7,9 @@ public class Event {
 
     private String title;
     private String description;
-    private Date date;
-    private int notificationHour;
-    private int notificationMinute;
+    private CustomDate customDate;
+    private NotificationInfo notification;
     private int typeId;
-    boolean hasNotification;
     String _id;
     String firebaseKey;
     boolean hasFirebaseKey;
@@ -25,15 +23,10 @@ public class Event {
 
         this.title = title;
         this.description = description;
-        this.date = date;
-        this.notificationHour = notificationHour;
-        this.notificationMinute = notificationMinute;
+        this.customDate = new CustomDate(date);
+        this.notification = new NotificationInfo(notificationHour, notificationMinute);
         this.typeId = typeId;
-        hasNotification = (notificationHour != 0 || notificationMinute != 0);
         firebaseKey = null;
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
     }
 
     public boolean isHasFirebaseKey() {
@@ -72,95 +65,6 @@ public class Event {
         this.description = description;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public int Year() {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        return calendar.get(Calendar.YEAR);
-    }
-
-    public boolean isHasNotification() {
-        return hasNotification;
-    }
-
-    public void setHasNotification(boolean hasNotification) {
-        this.hasNotification = hasNotification;
-    }
-
-    public int Month() {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        return calendar.get(Calendar.MONTH);
-    }
-
-    public int Day() {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        return calendar.get(Calendar.DAY_OF_MONTH);
-    }
-
-    public int Hour() {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        return calendar.get(Calendar.HOUR_OF_DAY);
-    }
-
-    public int Minute() {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return calendar.get(Calendar.MINUTE);
-    }
-
-    public long DateAsLong() {
-
-        return date.getTime();
-    }
-
-    public String HourAsString() {
-
-        if(this.Minute() > 9) {
-
-            return this.Hour() + ":" + this.Minute();
-        }
-
-        else return this.Hour() + ":0" + this.Minute();
-    }
-
-    public int getNotificationHour() {
-
-        return notificationHour;
-    }
-
-    public void setNotificationHour(int notificationHour) {
-
-        this.notificationHour = notificationHour;
-    }
-
-    public int getNotificationMinute() {
-
-        return notificationMinute;
-    }
-
-    public void setNotificationMinute(int notificationMinute) {
-
-        this.notificationMinute = notificationMinute;
-    }
 
     public int getTypeId() {
 
@@ -178,6 +82,22 @@ public class Event {
 
     public void set_id(String _id) {
         this._id = _id;
+    }
+
+    public CustomDate getCustomDate() {
+        return customDate;
+    }
+
+    public void setCustomDate(CustomDate date) {
+        this.customDate = date;
+    }
+
+    public NotificationInfo getNotification() {
+        return notification;
+    }
+
+    public void setNotification(NotificationInfo notification) {
+        this.notification = notification;
     }
 }
 

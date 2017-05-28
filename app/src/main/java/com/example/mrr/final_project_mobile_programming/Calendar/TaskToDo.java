@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class TaskToDo extends Event {
 
-    int imageId;
+    private int imageId;
 
     public TaskToDo() {
 

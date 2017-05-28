@@ -15,18 +15,20 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.mrr.final_project_mobile_programming.Adapters.SwitchTabAdapter;
 import com.example.mrr.final_project_mobile_programming.Calendar.Event;
-import com.example.mrr.final_project_mobile_programming.Calendar.GridCalendarFragment;
+import com.example.mrr.final_project_mobile_programming.Fragments.GridCalendarFragment;
 import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
 import com.example.mrr.final_project_mobile_programming.Calendar.TaskToDo;
 import com.example.mrr.final_project_mobile_programming.Contacts.ContactModel;
-import com.example.mrr.final_project_mobile_programming.Contacts.ContactsFragment;
+import com.example.mrr.final_project_mobile_programming.Fragments.ContactsFragment;
 import com.example.mrr.final_project_mobile_programming.FCM.NotificationReceiver;
 import com.example.mrr.final_project_mobile_programming.FCM.myJobService;
 import com.example.mrr.final_project_mobile_programming.Fragments.AddEventFragment;
 import com.example.mrr.final_project_mobile_programming.Fragments.DayFragment;
 import com.example.mrr.final_project_mobile_programming.Fragments.EventFragment;
 import com.example.mrr.final_project_mobile_programming.R;
+import com.example.mrr.final_project_mobile_programming.Utilities.CalendarUtility;
 import com.example.mrr.final_project_mobile_programming.Utilities.CursorsFetcher;
 import com.example.mrr.final_project_mobile_programming.Utilities.EventHandler;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements Communicator {
     private int jobId = 0;
     FirebaseUser user = null;
     DatabaseReference mDatabase = null;
+
+    private static int SCHEDULE_ALARMS = 1;
+    private static int SCHEDULE_FIREBASE_UPDATE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +82,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
                         eventHandler.addEvent(meeting);
                         setAlarm(meeting);
-
                     }
-
                 }
 
                 else if(typeId == 1) {
@@ -99,17 +102,14 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
@@ -123,12 +123,10 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         NotificationReceiver receiver = new NotificationReceiver();
         registerReceiver(receiver, filter);
 
-        Calendar calendar = Calendar.getInstance();
-
-        setAlarmsForEvents(getEvents(calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)));
-
         myServiceComponent = new ComponentName(this, myJobService.class);
+
+        scheduleJob(SCHEDULE_ALARMS);
+        scheduleJob(SCHEDULE_FIREBASE_UPDATE);
     }
 
     private void checkFirebaseUser() {
@@ -195,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
             @Override
             public int compare(Event o1, Event o2) {
 
-                return o1.getDate().compareTo(o2.getDate());
+                return o1.getCustomDate().getDate().compareTo(o2.getCustomDate().getDate());
             }
         });
 
@@ -235,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         DayFragment fragmentDay = (DayFragment) adapter.instantiateItem(pager, 0);
         fragmentDay.addNewEvent(event);
         setAlarm(event);
-        updateFirebaseDatabase();
+        scheduleJob(0);
     }
 
     @Override
@@ -265,34 +263,28 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         fragment.addChosenContact(contact);
     }
 
-    private void setAlarmsForEvents(ArrayList<Event> events) {
-
-        for(Event event : events)
-            setAlarm(event);
-    }
-
     private void setAlarm(Event event) {
 
-        if(!event.isHasNotification())
+        if(!event.getNotification().isHasNotification())
             return;
 
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
 
-        if(event.Hour() - event.getNotificationHour() < hour)
+        if(event.getCustomDate().Hour() - event.getNotification().getNotificationHour() < hour)
             return;
 
-        if(event.Hour() - event.getNotificationHour() == hour
-                && event.Minute() - event.getNotificationMinute() <= minute)
+        if(event.getCustomDate().Hour() - event.getNotification().getNotificationHour() == hour
+                && event.getCustomDate().Minute() - event.getNotification().getNotificationMinute() <= minute)
             return;
 
-        calendar = prepareCalendarForNotification(event);
+        calendar = CalendarUtility.prepareCalendarForNotification(event);
 
         Intent intent = new Intent("com.example.mrr.Action1");
         intent.putExtra(NotificationReceiver.NOTIFICATION_TITLE, event.getTitle());
         intent.putExtra(NotificationReceiver.NOTIFICATION_TYPE, event.getTypeId());
-        intent.putExtra(NotificationReceiver.NOTIFICATION_HOURS, event.HourAsString());
+        intent.putExtra(NotificationReceiver.NOTIFICATION_HOURS, event.getCustomDate().HourAsString());
 
         final int id = (int) System.currentTimeMillis();
 
@@ -308,57 +300,20 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
-
-    private Calendar prepareCalendarForNotification(Event event) {
-
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.set(Calendar.YEAR, event.Year());
-        calendar.set(Calendar.MONTH, event.Month());
-
-        if(event.Hour() - event.getNotificationHour() < 0) {
-
-            calendar.set(Calendar.DAY_OF_MONTH, event.Day() - 1);
-            calendar.set(Calendar.HOUR_OF_DAY, 24 - (event.Hour() - event.getNotificationHour()));
-
-        }
-
-        else {
-
-            calendar.set(Calendar.DAY_OF_MONTH, event.Day());
-            calendar.set(Calendar.HOUR_OF_DAY, event.Hour() - event.getNotificationHour());
-        }
-
-        if(event.Minute() - event.getNotificationMinute() < 0) {
-
-            calendar.set(Calendar.HOUR_OF_DAY, event.Hour() - 1);
-            calendar.set(Calendar.MINUTE, 60 - (event.Minute() - event.getNotificationMinute()));
-        }
-
-        else {
-
-            calendar.set(Calendar.MINUTE, event.Minute() - event.getNotificationMinute());
-        }
-
-        calendar.set(Calendar.SECOND, 0);
-
-        return calendar;
-    }
-
     @Override
     public int getLastAddedMeetingId() {
 
         return eventHandler.getLastAddedMeetingId();
     }
 
-    public void updateFirebaseDatabase() {
+    public void scheduleJob(int workTypeKey) {
 
         JobInfo.Builder builder = new JobInfo.Builder(jobId++, myServiceComponent);
         builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_NOT_ROAMING);
         builder.setPersisted(false);
 
         PersistableBundle extras = new PersistableBundle();
-        extras.putInt(myJobService.WORK_TYPE_KEY, 0);
+        extras.putInt(myJobService.WORK_TYPE_KEY, workTypeKey);
         extras.putString(myJobService.USER_UID, user.getUid());
 
         builder.setExtras(extras);
