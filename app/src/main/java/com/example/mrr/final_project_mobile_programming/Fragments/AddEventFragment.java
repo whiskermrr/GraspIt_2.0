@@ -176,6 +176,7 @@ public class AddEventFragment extends Fragment implements CompoundButton.OnCheck
 
         else
             adapter.addContactToList(contact);
+
         UtilityListViewHeight.setListViewHeightBasedOnItemsInList(contactsList);
     }
 

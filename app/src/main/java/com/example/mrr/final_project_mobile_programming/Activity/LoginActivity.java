@@ -90,9 +90,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signButton.setOnClickListener(this);
         loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);
-
-        etEmail.setText("witek119@gmail.com");
-        etPassword.setText("1234567890");
     }
 
     public static boolean hasPermission(Context context, String[] permissions) {

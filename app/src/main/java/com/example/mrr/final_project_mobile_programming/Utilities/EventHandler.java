@@ -221,8 +221,7 @@ public class EventHandler extends SQLiteOpenHelper {
     public int getLastAddedMeetingId() {
 
         db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT " + COLUMN_ID + " FROM " + TABLE_MEETINGS + " WHERE " + COLUMN_TYPE_OF_EVENT + " = ?",
-                new String[] {Integer.toString(0)});
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_ID + " FROM " + TABLE_MEETINGS, null);
         cursor.moveToLast();
 
         int id = 0;
