@@ -38,9 +38,9 @@ public class myJobService extends JobService {
 
         if(id == 0) {
 
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("Events");
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
             ArrayList<Event> events = CursorsFetcher.getMeetingsFromDatabaseAsList(
-                    eventHandler.getCursorOfAllMeetings(),
+                    eventHandler.getCursorOfAllMeetings(userUID),
                     eventHandler.getCursorOfAllContacts());
 
             for(Event event : events) {
@@ -56,8 +56,6 @@ public class myJobService extends JobService {
 
                 mDatabase.child(userUID).child(event.getFirebaseKey()).setValue(event);
             }
-
-            Toast.makeText(getApplicationContext(), "Firebase database updated!", Toast.LENGTH_SHORT).show();
         }
 
         if(id == 1) {
@@ -66,8 +64,6 @@ public class myJobService extends JobService {
 
             setAlarmsForEvents(getEvents(calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)));
-
-            System.out.println("ALARMS!!!");
         }
 
         return true;
@@ -76,7 +72,6 @@ public class myJobService extends JobService {
     @Override
     public boolean onStopJob(JobParameters params) {
 
-        Toast.makeText(getApplicationContext(), "Sync DONE", Toast.LENGTH_SHORT).show();
         return false;
     }
 

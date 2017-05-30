@@ -46,6 +46,9 @@ import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity implements Communicator {
 
+    private static int SCHEDULE_ALARMS = 1;
+    private static int SCHEDULE_FIREBASE_UPDATE = 0;
+
     ViewPager viewPager = null;
     EventHandler eventHandler = null;
     Event mEvent = null;
@@ -54,8 +57,9 @@ public class MainActivity extends AppCompatActivity implements Communicator {
     FirebaseUser user = null;
     DatabaseReference mDatabase = null;
 
-    private static int SCHEDULE_ALARMS = 1;
-    private static int SCHEDULE_FIREBASE_UPDATE = 0;
+    private int currentYear;
+    private int currentMonth;
+    private int currentDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +67,10 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         setContentView(R.layout.activity_main);
 
         checkFirebaseUser();
+        setCurrentDate();
 
         eventHandler = new EventHandler(this, null, null, 1);
-        //eventHandler.onUpgrade(eventHandler.getWritableDatabase(), 1, 1);
-
-
+        eventHandler.onUpgrade(eventHandler.getWritableDatabase(), 1, 1);
 
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
@@ -80,7 +83,8 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                     Meeting meeting = dataSnapshot.getValue(Meeting.class);
                     if(!eventHandler.isEventInDatabase(meeting.getFirebaseKey())) {
 
-                        eventHandler.addEvent(meeting);
+                        addEventToDatabase(meeting);
+                        updateDayFragment(currentYear, currentMonth, currentDay);
                         setAlarm(meeting);
                     }
                 }
@@ -90,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                     TaskToDo task = dataSnapshot.getValue(TaskToDo.class);
                     if(!eventHandler.isEventInDatabase(task.getFirebaseKey())) {
 
-                        eventHandler.addEvent(task);
+                        addEventToDatabase(task);
                         setAlarm(task);
                     }
                 }
@@ -117,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         viewPager = (ViewPager) findViewById(R.id.activity_main_pager);
         FragmentManager manager = getSupportFragmentManager();
         viewPager.setAdapter(new SwitchTabAdapter(manager));
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
 
         IntentFilter filter = new IntentFilter("com.example.mrr.Action1");
         NotificationReceiver receiver = new NotificationReceiver();
@@ -139,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
             startActivity(intent);
         }
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Events").child(user.getUid());
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
         System.out.println(user.getUid());
     }
 
@@ -158,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
     @Override
     public ArrayList<Event> getEvents() {
 
-        Cursor cursorEvents = eventHandler.getCursorOfAllMeetings();
+        Cursor cursorEvents = eventHandler.getCursorOfAllMeetings(user.getUid());
         cursorEvents.moveToFirst();
         Cursor cursorContacts = eventHandler.getCursorOfAllContacts();
 
@@ -222,17 +226,13 @@ public class MainActivity extends AppCompatActivity implements Communicator {
     @Override
     public void addEventToDatabase(Event event) {
 
-        eventHandler.addEvent(event);
+        eventHandler.addEvent(event, user.getUid());
 
         ViewPager pager = (ViewPager) findViewById(R.id.activity_main_pager);
 
         SwitchTabAdapter adapter = (SwitchTabAdapter) pager.getAdapter();
         GridCalendarFragment fragmentCalendar = (GridCalendarFragment) adapter.instantiateItem(pager, 1);
         fragmentCalendar.addNewEvent(event);
-
-        DayFragment fragmentDay = (DayFragment) adapter.instantiateItem(pager, 0);
-        fragmentDay.addNewEvent(event);
-        setAlarm(event);
         scheduleJob(0);
     }
 
@@ -320,5 +320,13 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
         JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(builder.build());
+    }
+
+    public void setCurrentDate() {
+
+        Calendar calendar = Calendar.getInstance();
+        currentYear = calendar.get(Calendar.YEAR);
+        currentMonth = calendar.get(Calendar.MONTH);
+        currentDay = calendar.get(Calendar.DAY_OF_MONTH);
     }
 }

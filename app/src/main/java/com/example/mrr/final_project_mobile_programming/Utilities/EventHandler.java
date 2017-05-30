@@ -35,6 +35,7 @@ public class EventHandler extends SQLiteOpenHelper {
     public static final String COLUMN_NOTIFICATION_MINUTE = "notification_minute";
     public static final String COLUMN_TASK_ICON = "task_icon";
     public static final String COLUMN_FIREBASE_KEY = "firebase_key";
+    public static final String COLUMN_USER_UID = "user_uid";
 
     //Meeting variables
     public static final String COLUMN_CONTACT_EVENT_ID = "contact_event_id";
@@ -57,6 +58,7 @@ public class EventHandler extends SQLiteOpenHelper {
 
         String queryEvent = "CREATE TABLE " + TABLE_MEETINGS + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_USER_UID + " TEXT NOT NULL," +
                 COLUMN_TYPE_OF_EVENT + " INTEGER NOT NULL," +
                 COLUMN_TITLE + " TEXT NOT NULL," +
                 COLUMN_DESCRIPTION + " TEXT NOT NULL," +
@@ -116,9 +118,10 @@ public class EventHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addEvent(Event event) {
+    public void addEvent(Event event, String userUID) {
 
         ContentValues values = prepareValues(event);
+        values.put(COLUMN_USER_UID, userUID);
         db = getWritableDatabase();
         db.insert(TABLE_MEETINGS, null, values);
         db.close();
@@ -132,11 +135,12 @@ public class EventHandler extends SQLiteOpenHelper {
                 new String[] {Integer.toString(id)});
     }
 
-    public Cursor getCursorOfAllMeetings() {
+    public Cursor getCursorOfAllMeetings(String userUID) {
 
         db = getReadableDatabase();
 
-        return db.rawQuery("SELECT * FROM " + TABLE_MEETINGS, null);
+        return db.rawQuery("SELECT * FROM " + TABLE_MEETINGS + " WHERE " + COLUMN_USER_UID + " = ?",
+                new String[] {userUID});
     }
 
     public Cursor getCursorOfAllContacts() {
@@ -149,7 +153,9 @@ public class EventHandler extends SQLiteOpenHelper {
         db = getReadableDatabase();
 
         return db.rawQuery("SELECT * FROM " + TABLE_MEETINGS + " WHERE " +
-                COLUMN_YEAR + " = ? AND " + COLUMN_MONTH + " = ? AND " + COLUMN_DAY + " = ?",
+                COLUMN_YEAR + " = ? AND " +
+                        COLUMN_MONTH + " = ? AND " +
+                        COLUMN_DAY + " = ?",
                 new String[] {Integer.toString(year), Integer.toString(month), Integer.toString(day)});
     }
 
@@ -186,7 +192,7 @@ public class EventHandler extends SQLiteOpenHelper {
             imageValue = task.getImageId();
         }
 
-        if(event.getClass() == Meeting.class) {
+        else if(event.getClass() == Meeting.class) {
 
             Meeting meeting = (Meeting) event;
             insertContact(meeting);

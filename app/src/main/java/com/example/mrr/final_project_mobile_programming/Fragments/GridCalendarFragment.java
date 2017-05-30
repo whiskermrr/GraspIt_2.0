@@ -129,6 +129,7 @@ public class GridCalendarFragment extends Fragment implements View.OnClickListen
     public void addNewEvent(Event event) {
 
         adapter.addNewEvent(event);
+        adapter.notifyDataSetChanged();
     }
 
     private void changeMonth() {
