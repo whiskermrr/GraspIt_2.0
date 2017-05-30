@@ -148,15 +148,19 @@ public class EventHandler extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + TABLE_CONTACTS, null);
     }
 
-    public Cursor getCursorOfMeetingsBySelectedDate(int year, int month, int day) {
+    public Cursor getCursorOfMeetingsBySelectedDate(int year, int month, int day, String userUID) {
 
         db = getReadableDatabase();
 
         return db.rawQuery("SELECT * FROM " + TABLE_MEETINGS + " WHERE " +
                 COLUMN_YEAR + " = ? AND " +
                         COLUMN_MONTH + " = ? AND " +
-                        COLUMN_DAY + " = ?",
-                new String[] {Integer.toString(year), Integer.toString(month), Integer.toString(day)});
+                        COLUMN_DAY + " = ? AND " +
+                        COLUMN_USER_UID + " = ?",
+                new String[] {Integer.toString(year),
+                        Integer.toString(month),
+                        Integer.toString(day),
+                        userUID});
     }
 
     public Cursor getCursorOfContactsByMeetingId(int id) {

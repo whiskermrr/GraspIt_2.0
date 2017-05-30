@@ -26,13 +26,13 @@ public class myJobService extends JobService {
     public static final String WORK_TYPE_KEY = "workType";
     public static final String USER_UID = "user_uid";
     EventHandler eventHandler = null;
+    String userUID;
 
     @Override
     public boolean onStartJob(JobParameters params) {
 
         int id = params.getExtras().getInt(WORK_TYPE_KEY);
-        String userUID = params.getExtras().getString(USER_UID, "0");
-        System.out.println("user UID: " + userUID);
+        userUID = params.getExtras().getString(USER_UID, "0");
 
         eventHandler = new EventHandler(getApplicationContext(), null, null, 1);
 
@@ -122,7 +122,7 @@ public class myJobService extends JobService {
 
         ArrayList<Event> events = new ArrayList<>();
 
-        Cursor cursorEvents = eventHandler.getCursorOfMeetingsBySelectedDate(year, month, day);
+        Cursor cursorEvents = eventHandler.getCursorOfMeetingsBySelectedDate(year, month, day, userUID);
 
         if(cursorEvents != null && cursorEvents.getCount() > 0) {
 

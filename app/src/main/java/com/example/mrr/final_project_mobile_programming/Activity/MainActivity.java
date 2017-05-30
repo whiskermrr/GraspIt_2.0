@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         setCurrentDate();
 
         eventHandler = new EventHandler(this, null, null, 1);
-        eventHandler.onUpgrade(eventHandler.getWritableDatabase(), 1, 1);
+        //eventHandler.onUpgrade(eventHandler.getWritableDatabase(), 1, 1);
 
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
         ArrayList<Event> events = new ArrayList<>();
 
-        Cursor cursorEvents = eventHandler.getCursorOfMeetingsBySelectedDate(year, month, day);
+        Cursor cursorEvents = eventHandler.getCursorOfMeetingsBySelectedDate(year, month, day, user.getUid());
 
         if(cursorEvents != null && cursorEvents.getCount() > 0) {
 
