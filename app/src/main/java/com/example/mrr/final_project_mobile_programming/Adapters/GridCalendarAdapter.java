@@ -10,8 +10,6 @@ import android.widget.Button;
 
 import com.example.mrr.final_project_mobile_programming.Activity.Communicator;
 import com.example.mrr.final_project_mobile_programming.Calendar.Event;
-import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
-import com.example.mrr.final_project_mobile_programming.Calendar.TaskToDo;
 import com.example.mrr.final_project_mobile_programming.R;
 
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ public class GridCalendarAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Event> events;
 
-    Communicator communicator;
+    private Communicator communicator;
 
 
     public GridCalendarAdapter(Context context, int month, int year, ArrayList<Event> events) {
@@ -240,51 +238,6 @@ public class GridCalendarAdapter extends BaseAdapter {
                         String year = dayInfo[3].trim();
 
                         communicator.updateDayFragment(Integer.parseInt(year), convertMonthToInt(month), Integer.parseInt(day));
-
-                        for(int i = 0; i < positions.length; i++) {
-
-                            positions[i] = Integer.parseInt(tag[i]);
-                        }
-
-                        for(int i = 0; i < positions.length; i++) {
-
-
-                            if(events.get(positions[i]).getTypeId() == 0) {
-
-                                Meeting event = (Meeting) events.get(positions[i]);
-
-                                System.out.println("TITLE: " + event.getTitle());
-                                System.out.println("DESCRIPTION: " + event.getDescription());
-                                System.out.println("YEAR: " + event.getCustomDate().Year());
-                                System.out.println("MONTH: " + event.getCustomDate().Month());
-                                System.out.println("DAY: " + event.getCustomDate().Day());
-                                System.out.println("TYPE: " +event.getTypeId());
-                                System.out.println("----------------");
-
-                                for (int j = 0; j < event.getContacts().size(); j++) {
-
-                                    System.out.println(event.getContacts().get(j).getName());
-                                    System.out.println(event.getContacts().get(j).getPhoneNumber());
-                                    System.out.println(event.getContacts().get(j).getEmail());
-                                    //System.out.println(Uri.parse(event.getContacts().get(j).getPhoto()));
-                                    System.out.println("----------------");
-                                }
-                            }
-
-                            else if(events.get(positions[i]).getTypeId() == 1) {
-
-                                TaskToDo event = (TaskToDo) events.get(positions[i]);
-
-                                System.out.println("TITLE: " + event.getTitle());
-                                System.out.println("DESCRIPTION: " + event.getDescription());
-                                System.out.println("YEAR: " + event.getCustomDate().Year());
-                                System.out.println("MONTH: " + event.getCustomDate().Month());
-                                System.out.println("DAY: " + event.getCustomDate().Day());
-                                System.out.println("TYPE: " + event.getTypeId());
-                                System.out.println("IMAGE: " + event.getImageId());
-                                System.out.println("----------------");
-                            }
-                        }
                     }
                 }
             }

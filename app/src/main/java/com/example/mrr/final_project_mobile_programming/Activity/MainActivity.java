@@ -46,7 +46,6 @@ import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity implements Communicator {
 
-    private static int SCHEDULE_ALARMS = 1;
     private static int SCHEDULE_FIREBASE_UPDATE = 0;
 
     ViewPager viewPager = null;
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         setCurrentDate();
 
         eventHandler = new EventHandler(this, null, null, 1);
-        //eventHandler.onUpgrade(eventHandler.getWritableDatabase(), 1, 1);
+        eventHandler.onUpgrade(eventHandler.getWritableDatabase(), 1, 1);
 
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
@@ -95,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                     if(!eventHandler.isEventInDatabase(task.getFirebaseKey())) {
 
                         addEventToDatabase(task);
+                        updateDayFragment(currentYear, currentMonth, currentDay);
                         setAlarm(task);
                     }
                 }
@@ -128,9 +128,8 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         registerReceiver(receiver, filter);
 
         myServiceComponent = new ComponentName(this, myJobService.class);
-
-        scheduleJob(SCHEDULE_ALARMS);
         scheduleJob(SCHEDULE_FIREBASE_UPDATE);
+        setAlarmsForEvents(getEvents(currentYear, currentMonth, currentDay));
     }
 
     private void checkFirebaseUser() {
@@ -209,11 +208,8 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
         ArrayList<Event> events = getEvents(year, month, day);
 
-        ViewPager pager = (ViewPager) findViewById(R.id.activity_main_pager);
-
-        SwitchTabAdapter adapter = (SwitchTabAdapter) pager.getAdapter();
-        DayFragment fragment = (DayFragment) adapter.instantiateItem(pager, 0);
-
+        SwitchTabAdapter adapter = (SwitchTabAdapter) viewPager.getAdapter();
+        DayFragment fragment = (DayFragment) adapter.instantiateItem(viewPager, 0);
 
         if(fragment != null) {
 
@@ -228,10 +224,8 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
         eventHandler.addEvent(event, user.getUid());
 
-        ViewPager pager = (ViewPager) findViewById(R.id.activity_main_pager);
-
-        SwitchTabAdapter adapter = (SwitchTabAdapter) pager.getAdapter();
-        GridCalendarFragment fragmentCalendar = (GridCalendarFragment) adapter.instantiateItem(pager, 1);
+        SwitchTabAdapter adapter = (SwitchTabAdapter) viewPager.getAdapter();
+        GridCalendarFragment fragmentCalendar = (GridCalendarFragment) adapter.instantiateItem(viewPager, 1);
         fragmentCalendar.addNewEvent(event);
         scheduleJob(0);
     }
@@ -256,11 +250,15 @@ public class MainActivity extends AppCompatActivity implements Communicator {
     @Override
     public void updateAddEventFragment(ContactModel contact) {
 
-        ViewPager pager = (ViewPager) findViewById(R.id.activity_main_pager);
-
-        SwitchTabAdapter adapter = (SwitchTabAdapter) pager.getAdapter();
-        AddEventFragment fragment = (AddEventFragment) adapter.instantiateItem(pager, 2);
+        SwitchTabAdapter adapter = (SwitchTabAdapter) viewPager.getAdapter();
+        AddEventFragment fragment = (AddEventFragment) adapter.instantiateItem(viewPager, 2);
         fragment.addChosenContact(contact);
+    }
+
+    private void setAlarmsForEvents(ArrayList<Event> events) {
+
+        for(Event event : events)
+            setAlarm(event);
     }
 
     private void setAlarm(Event event) {
@@ -309,8 +307,10 @@ public class MainActivity extends AppCompatActivity implements Communicator {
     public void scheduleJob(int workTypeKey) {
 
         JobInfo.Builder builder = new JobInfo.Builder(jobId++, myServiceComponent);
-        builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_NOT_ROAMING);
         builder.setPersisted(false);
+
+        if(workTypeKey == SCHEDULE_FIREBASE_UPDATE)
+            builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
 
         PersistableBundle extras = new PersistableBundle();
         extras.putInt(myJobService.WORK_TYPE_KEY, workTypeKey);

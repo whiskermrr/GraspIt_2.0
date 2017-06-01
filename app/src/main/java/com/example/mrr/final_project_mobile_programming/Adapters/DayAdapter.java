@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import com.example.mrr.final_project_mobile_programming.Calendar.Meeting;
 import com.example.mrr.final_project_mobile_programming.Calendar.TaskToDo;
 import com.example.mrr.final_project_mobile_programming.R;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -76,14 +76,14 @@ public class DayAdapter extends ArrayAdapter<Event> {
     public void addEventToList(Event event) {
 
         mEvents.add(event);
-        notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         View view = convertView;
-        DayMeetingViewHandler holder = null;
+        DayMeetingViewHandler holder;
 
         if(view == null) {
 
@@ -114,11 +114,6 @@ public class DayAdapter extends ArrayAdapter<Event> {
 
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), Uri.parse(photo));
                         holder.imageMeeting.setImageBitmap(bitmap);
-                    }
-
-                    catch (FileNotFoundException e) {
-
-                        e.printStackTrace();
                     }
 
                     catch (IOException e) {

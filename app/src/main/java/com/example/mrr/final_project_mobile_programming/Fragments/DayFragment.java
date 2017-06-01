@@ -111,15 +111,6 @@ public class DayFragment extends Fragment implements AdapterView.OnItemClickList
         }
     }
 
-    public void addNewEvent(Event event) {
-
-        if(event.getClass() == Meeting.class)
-            adapterMeetings.addEventToList(event);
-
-        else if(event.getClass() == TaskToDo.class)
-            adapterTaskToDo.addEventToList(event);
-    }
-
     public void updateAdapter(ArrayList<Event> events) {
 
         adapterMeetings = new DayAdapter(getActivity(), new ArrayList<Event>());

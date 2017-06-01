@@ -11,11 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.mrr.final_project_mobile_programming.Calendar.Event;
 import com.example.mrr.final_project_mobile_programming.Contacts.ContactModel;
 import com.example.mrr.final_project_mobile_programming.R;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -51,7 +49,7 @@ public class ContactsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View view = convertView;
-        ContactsViewHolder holder = null;
+        ContactsViewHolder holder;
 
         if(view == null) {
 
@@ -80,11 +78,6 @@ public class ContactsAdapter extends BaseAdapter {
 
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), Uri.parse(picture));
                 holder.contactImage.setImageBitmap(bitmap);
-            }
-
-            catch (FileNotFoundException e) {
-
-                e.printStackTrace();
             }
 
             catch (IOException e) {

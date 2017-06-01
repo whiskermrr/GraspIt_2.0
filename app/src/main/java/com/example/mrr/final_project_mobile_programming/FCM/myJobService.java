@@ -58,14 +58,6 @@ public class myJobService extends JobService {
             }
         }
 
-        if(id == 1) {
-
-            Calendar calendar = Calendar.getInstance();
-
-            setAlarmsForEvents(getEvents(calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)));
-        }
-
         return true;
     }
 
@@ -73,77 +65,5 @@ public class myJobService extends JobService {
     public boolean onStopJob(JobParameters params) {
 
         return false;
-    }
-
-    private void setAlarmsForEvents(ArrayList<Event> events) {
-
-        for(Event event : events)
-            setAlarm(event);
-    }
-
-    private void setAlarm(Event event) {
-
-        if(!event.getNotification().isHasNotification())
-            return;
-
-        Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-
-        if(event.getCustomDate().Hour() - event.getNotification().getNotificationHour() < hour)
-            return;
-
-        if(event.getCustomDate().Hour() - event.getNotification().getNotificationHour() == hour
-                && event.getCustomDate().Minute() - event.getNotification().getNotificationMinute() <= minute)
-            return;
-
-        calendar = CalendarUtility.prepareCalendarForNotification(event);
-
-        Intent intent = new Intent("com.example.mrr.Action1");
-        intent.putExtra(NotificationReceiver.NOTIFICATION_TITLE, event.getTitle());
-        intent.putExtra(NotificationReceiver.NOTIFICATION_TYPE, event.getTypeId());
-        intent.putExtra(NotificationReceiver.NOTIFICATION_HOURS, event.getCustomDate().HourAsString());
-
-        final int id = (int) System.currentTimeMillis();
-
-        intent.putExtra(NotificationReceiver.NOTIFICATION_ID, id);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this, id, intent,
-                PendingIntent.FLAG_ONE_SHOT);
-
-        AlarmManager alarmManager = (AlarmManager) getApplicationContext()
-                .getSystemService(ALARM_SERVICE);
-
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-    }
-
-    public ArrayList<Event> getEvents(int year, int month, int day) {
-
-        ArrayList<Event> events = new ArrayList<>();
-
-        Cursor cursorEvents = eventHandler.getCursorOfMeetingsBySelectedDate(year, month, day, userUID);
-
-        if(cursorEvents != null && cursorEvents.getCount() > 0) {
-
-            cursorEvents.moveToFirst();
-            Cursor cursorContact = eventHandler.getCursorOfAllContacts();
-
-            events = CursorsFetcher.getMeetingsFromDatabaseAsList(cursorEvents, cursorContact);
-            cursorContact.close();
-            cursorEvents.close();
-        }
-
-        eventHandler.closeDatabase();
-
-        Collections.sort(events, new Comparator<Event>() {
-            @Override
-            public int compare(Event o1, Event o2) {
-
-                return o1.getCustomDate().getDate().compareTo(o2.getCustomDate().getDate());
-            }
-        });
-
-        return events;
     }
 }
